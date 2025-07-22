@@ -29,10 +29,8 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     name: "medications"
   });
 
-  const { fields: otherDiseaseFields, append: appendOtherDisease, remove: removeOtherDisease } = useFieldArray({
-    control: form.control,
-    name: "otherChronicDiseases"
-  });
+  // Separado: array para outras doenças crônicas (strings)
+  const [otherDiseases, setOtherDiseases] = useState<string[]>([]);
 
   const handleDiseaseChange = (disease: string, checked: boolean) => {
     const currentDiseases = form.getValues('chronicDiseases') || [];
@@ -46,16 +44,16 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
   const handleNoChronicDiseasesChange = (checked: boolean) => {
     form.setValue('noChronicDiseases', checked);
     if (checked) {
-      // Clear all chronic diseases and other diseases when "não possui" is checked
+      // Limpar todas as doenças crônicas quando "não possui" é marcado
       form.setValue('chronicDiseases', []);
-      form.setValue('otherChronicDiseases', []);
+      setOtherDiseases([]);
     }
   };
 
   const handleNoMedicationsChange = (checked: boolean) => {
     form.setValue('noMedications', checked);
     if (checked) {
-      // Clear all medications when "não tem" is checked
+      // Limpar todos os medicamentos quando "não tem" é marcado
       form.setValue('medications', []);
     }
   };
@@ -65,7 +63,34 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
   };
 
   const addOtherDisease = () => {
-    appendOtherDisease('');
+    setOtherDiseases(prev => [...prev, '']);
+  };
+
+  const removeOtherDisease = (index: number) => {
+    const newOtherDiseases = otherDiseases.filter((_, i) => i !== index);
+    setOtherDiseases(newOtherDiseases);
+    
+    // Atualizar o form com as outras doenças válidas (não vazias)
+    const validOtherDiseases = newOtherDiseases.filter(disease => disease.trim() !== '');
+    const currentChronicDiseases = form.getValues('chronicDiseases') || [];
+    const mainDiseases = currentChronicDiseases.filter(disease => 
+      chronicDiseaseOptions.some(option => option.value === disease)
+    );
+    form.setValue('chronicDiseases', [...mainDiseases, ...validOtherDiseases]);
+  };
+
+  const updateOtherDisease = (index: number, value: string) => {
+    const newOtherDiseases = [...otherDiseases];
+    newOtherDiseases[index] = value;
+    setOtherDiseases(newOtherDiseases);
+    
+    // Atualizar o form combinando doenças principais + outras doenças
+    const validOtherDiseases = newOtherDiseases.filter(disease => disease.trim() !== '');
+    const currentChronicDiseases = form.getValues('chronicDiseases') || [];
+    const mainDiseases = currentChronicDiseases.filter(disease => 
+      chronicDiseaseOptions.some(option => option.value === disease)
+    );
+    form.setValue('chronicDiseases', [...mainDiseases, ...validOtherDiseases]);
   };
 
   const noMedications = form.watch('noMedications');
@@ -124,27 +149,18 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                 ))}
               </div>
               
-              {/* Campo para "Outras" doenças */}
+              {/* Campo para "Outras" doenças crônicas */}
               <div className="space-y-3">
                 <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
                 
                 <div className="space-y-2">
-                  {otherDiseaseFields.map((field, index) => (
-                    <div key={field.id} className="flex gap-2 items-center">
-                      <FormField
-                        control={form.control}
-                        name={`otherChronicDiseases.${index}`}
-                        render={({ field }) => (
-                          <FormItem className="flex-1">
-                            <FormControl>
-                              <Input 
-                                placeholder="Digite o nome da doença..." 
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                  {otherDiseases.map((disease, index) => (
+                    <div key={index} className="flex gap-2 items-center">
+                      <Input 
+                        placeholder="Digite o nome da doença..." 
+                        value={disease}
+                        onChange={(e) => updateOtherDisease(index, e.target.value)}
+                        className="flex-1"
                       />
                       <Button
                         type="button"

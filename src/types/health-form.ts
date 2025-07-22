@@ -1,3 +1,4 @@
+
 export interface HealthFormData {
   // Características Biológicas e Sociodemográficas
   age: number;
@@ -35,14 +36,13 @@ export interface HealthFormData {
   alcoholConsumption: 'nunca' | 'ocasional' | 'regular' | 'excessivo';
 
   // Condições de Saúde
-  chronicDiseases: string[];
-  otherChronicDiseases: string[];
+  chronicDiseases: string[]; // Array de strings para doenças crônicas
   noChronicDiseases?: boolean;
   medications: Array<{
     name: string;
     dosage: string;
     frequency: string;
-  }>;
+  }>; // Array de objetos para medicamentos
   noMedications?: boolean;
 
   // Medidas Antropométricas
