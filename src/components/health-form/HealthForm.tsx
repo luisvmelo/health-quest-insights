@@ -48,6 +48,8 @@ const healthFormSchema = z.object({
 
   // Tabagismo e Álcool
   smokingStatus: z.enum(['nunca', 'fumante', 'ex-fumante']),
+  startSmokingAge: z.number().optional(),
+  cigarettesPerDay: z.number().optional(),
   packsPerYear: z.number().optional(),
   quittingDate: z.string().optional(),
   alcoholConsumption: z.enum(['nunca', 'ocasional', 'regular', 'excessivo']),

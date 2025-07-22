@@ -26,6 +26,8 @@ export interface HealthFormData {
 
   // Tabagismo
   smokingStatus: 'nunca' | 'fumante' | 'ex-fumante';
+  startSmokingAge?: number;
+  cigarettesPerDay?: number;
   packsPerYear?: number;
   quittingDate?: string;
 
