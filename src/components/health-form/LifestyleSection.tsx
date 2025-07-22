@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -6,9 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
+
 interface LifestyleSectionProps {
   form: UseFormReturn<HealthFormData>;
 }
+
 export const LifestyleSection = ({
   form
 }: LifestyleSectionProps) => {
@@ -39,17 +42,25 @@ export const LifestyleSection = ({
       }
     }
   }, [smokingStatus, startSmokingAge, quittingAge, cigarettesPerDay, form]);
-  return <FormSection title="Hábitos de Vida Adicionais">
+
+  return (
+    <FormSection title="Hábitos de Vida Adicionais">
       <div className="space-y-4">
         {/* Tabagismo */}
         <div className="space-y-4">
           {/* Status de Tabagismo */}
-          <FormField control={form.control} name="smokingStatus" render={({
-          field
-        }) => <FormItem className="space-y-3">
+          <FormField
+            control={form.control}
+            name="smokingStatus"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
                 <FormLabel>Status de Tabagismo</FormLabel>
                 <FormControl>
-                  <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-3">
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-3"
+                  >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="nunca" id="nunca" />
                       <label htmlFor="nunca" className="text-sm font-medium">
@@ -71,112 +82,216 @@ export const LifestyleSection = ({
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
-              </FormItem>} />
+              </FormItem>
+            )}
+          />
 
           {/* Campos para fumante atual */}
-          {smokingStatus === 'fumante' && <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <FormField control={form.control} name="startSmokingAge" render={({
-            field
-          }) => <FormItem>
+          {smokingStatus === 'fumante' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <FormField
+                control={form.control}
+                name="startSmokingAge"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Idade que começou a fumar</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 18" {...field} onChange={e => {
-                const value = e.target.value;
-                field.onChange(value === '' ? '' : Number(value));
-              }} value={field.value || ''} />
+                      <Input
+                        type="text"
+                        placeholder="Ex: 18"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
 
-              <FormField control={form.control} name="cigarettesPerDay" render={({
-            field
-          }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="cigarettesPerDay"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Cigarros por dia</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 20" {...field} onChange={e => {
-                const value = e.target.value;
-                field.onChange(value === '' ? '' : Number(value));
-              }} value={field.value || ''} />
+                      <Input
+                        type="text"
+                        placeholder="Ex: 20"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
 
-              <FormField control={form.control} name="packsPerYear" render={({
-            field
-          }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="packsPerYear"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Maços-ano</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} value={field.value || ''} readOnly className="bg-gray-100" placeholder="Será calculado automaticamente" />
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ''}
+                        readOnly
+                        className="bg-gray-100"
+                        placeholder="Será calculado automaticamente"
+                      />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
-            </div>}
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
 
           {/* Campos para ex-fumante */}
-          {smokingStatus === 'ex-fumante' && <div className="space-y-4">
+          {smokingStatus === 'ex-fumante' && (
+            <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField control={form.control} name="startSmokingAge" render={({
-              field
-            }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="startSmokingAge"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>Idade que começou a fumar</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="Ex: 18" {...field} onChange={e => {
-                  const value = e.target.value;
-                  field.onChange(value === '' ? '' : Number(value));
-                }} value={field.value || ''} />
+                        <Input
+                          type="text"
+                          placeholder="Ex: 18"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '' || /^\d+$/.test(value)) {
+                              field.onChange(value === '' ? undefined : Number(value));
+                            }
+                          }}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
 
-                <FormField control={form.control} name="quittingAge" render={({
-              field
-            }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="quittingAge"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>Idade que parou de fumar</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="Ex: 35" {...field} onChange={e => {
-                  const value = e.target.value;
-                  field.onChange(value === '' ? '' : Number(value));
-                }} value={field.value || ''} />
+                        <Input
+                          type="text"
+                          placeholder="Ex: 35"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '' || /^\d+$/.test(value)) {
+                              field.onChange(value === '' ? undefined : Number(value));
+                            }
+                          }}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
 
-                <FormField control={form.control} name="cigarettesPerDay" render={({
-              field
-            }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="cigarettesPerDay"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>Cigarros por dia</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="Ex: 20" {...field} onChange={e => {
-                  const value = e.target.value;
-                  field.onChange(value === '' ? '' : Number(value));
-                }} value={field.value || ''} />
+                        <Input
+                          type="text"
+                          placeholder="Ex: 20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '' || /^\d+$/.test(value)) {
+                              field.onChange(value === '' ? undefined : Number(value));
+                            }
+                          }}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField control={form.control} name="packsPerYear" render={({
-              field
-            }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="packsPerYear"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>Maços-ano</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} value={field.value || ''} readOnly className="bg-gray-100" placeholder="Será calculado automaticamente" />
+                        <Input
+                          type="number"
+                          {...field}
+                          value={field.value || ''}
+                          readOnly
+                          className="bg-gray-100"
+                          placeholder="Será calculado automaticamente"
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
 
-                <FormField control={form.control} name="quittingDate" render={({
-              field
-            }) => {}} />
+                <FormField
+                  control={form.control}
+                  name="quittingDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Data que parou de fumar</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-            </div>}
+            </div>
+          )}
         </div>
 
         {/* Consumo de Álcool */}
-        <FormField control={form.control} name="alcoholConsumption" render={({
-        field
-      }) => <FormItem>
+        <FormField
+          control={form.control}
+          name="alcoholConsumption"
+          render={({ field }) => (
+            <FormItem>
               <FormLabel>Consumo de Álcool</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -192,7 +307,10 @@ export const LifestyleSection = ({
                 </SelectContent>
               </Select>
               <FormMessage />
-            </FormItem>} />
+            </FormItem>
+          )}
+        />
       </div>
-    </FormSection>;
+    </FormSection>
+  );
 };
