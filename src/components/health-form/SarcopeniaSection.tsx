@@ -24,6 +24,12 @@ export const SarcopeniaSection = ({ form }: SarcopeniaSectionProps) => {
                 className="flex flex-col space-y-3"
               >
                 <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="sem-sarcopenia" id="sem-sarcopenia" />
+                  <label htmlFor="sem-sarcopenia" className="text-sm font-medium">
+                    Sem sarcopenia
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
                   <RadioGroupItem value="pre-sarcopenica" id="pre-sarcopenica" />
                   <label htmlFor="pre-sarcopenica" className="text-sm font-medium">
                     Pré-sarcopênica
