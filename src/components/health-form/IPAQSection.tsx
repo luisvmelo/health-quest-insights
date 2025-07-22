@@ -5,23 +5,31 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
+
 interface IPAQSectionProps {
   form: UseFormReturn<HealthFormData>;
 }
-export const IPAQSection = ({
-  form
-}: IPAQSectionProps) => {
+
+export const IPAQSection = ({ form }: IPAQSectionProps) => {
   const physicalActivity = form.watch('physicalActivity');
   const moderatePerforms = form.watch('moderateActivity.performs');
   const vigorousPerforms = form.watch('vigorousActivity.performs');
   const lightWalkingPerforms = form.watch('lightWalking.performs');
-  return <FormSection title="Nível de Atividade Física (IPAQ)">
-      <FormField control={form.control} name="physicalActivity" render={({
-      field
-    }) => <FormItem className="space-y-3">
+
+  return (
+    <FormSection title="Nível de Atividade Física (IPAQ)">
+      <FormField
+        control={form.control}
+        name="physicalActivity"
+        render={({ field }) => (
+          <FormItem className="space-y-3">
             <FormLabel>Realiza atividade física?</FormLabel>
             <FormControl>
-              <RadioGroup onValueChange={value => field.onChange(value === 'sim')} value={field.value ? 'sim' : 'nao'} className="flex flex-col space-y-3">
+              <RadioGroup
+                onValueChange={(value) => field.onChange(value === 'sim')}
+                value={field.value === undefined ? undefined : field.value ? 'sim' : 'nao'}
+                className="flex flex-col space-y-3"
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="sim" id="atividade-sim" />
                   <label htmlFor="atividade-sim" className="text-sm font-medium">
@@ -37,7 +45,9 @@ export const IPAQSection = ({
               </RadioGroup>
             </FormControl>
             <FormMessage />
-          </FormItem>} />
+          </FormItem>
+        )}
+      />
 
       {physicalActivity && <div className="space-y-6 p-4 bg-secondary/30 rounded-lg">
           <p className="text-sm font-medium text-muted-foreground">
@@ -205,5 +215,6 @@ export const IPAQSection = ({
               <FormMessage />
             </FormItem>} />
       </div>
-    </FormSection>;
+    </FormSection>
+  );
 };
