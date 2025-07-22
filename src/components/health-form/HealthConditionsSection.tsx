@@ -1,7 +1,7 @@
+
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
@@ -12,17 +12,13 @@ interface HealthConditionsSectionProps {
   form: UseFormReturn<HealthFormData>;
 }
 
-const commonDiseases = [
-  'Diabetes',
-  'Hipertensão Arterial',
-  'Doenças Cardiovasculares',
-  'Osteoporose',
-  'Artrite/Artrose',
-  'Depressão/Ansiedade',
-  'Doença Renal Crônica',
-  'DPOC (Doença Pulmonar Obstrutiva Crônica)',
-  'Câncer',
-  'Outras'
+const chronicDiseaseOptions = [
+  { value: 'DM', label: 'DM (Diabetes Mellitus)' },
+  { value: 'HAS', label: 'HAS (Hipertensão Arterial Sistêmica)' },
+  { value: 'Dislipidemia', label: 'Dislipidemia' },
+  { value: 'DRC', label: 'DRC (Doença Renal Crônica)' },
+  { value: 'DHC', label: 'DHC (Doença Hepática Crônica)' },
+  { value: 'Hipotireoidismo', label: 'Hipotireoidismo' },
 ];
 
 export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) => {
@@ -60,25 +56,51 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     <FormSection title="Condições de Saúde">
       <div className="space-y-6">
         {/* Doenças Crônicas */}
-        <FormField
-          control={form.control}
-          name="chronicDiseases"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Doenças Crônicas</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Digite as doenças crônicas que você possui..."
-                  className="min-h-[100px]"
-                  {...field}
-                  value={Array.isArray(field.value) ? field.value.join(', ') : field.value || ''}
-                  onChange={(e) => field.onChange(e.target.value)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="space-y-4">
+          <FormLabel className="text-base font-medium">Doenças Crônicas</FormLabel>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {chronicDiseaseOptions.map((disease) => (
+              <FormField
+                key={disease.value}
+                control={form.control}
+                name="chronicDiseases"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={chronicDiseases.includes(disease.value)}
+                        onCheckedChange={(checked) => 
+                          handleDiseaseChange(disease.value, checked as boolean)
+                        }
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal">
+                      {disease.label}
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+            ))}
+          </div>
+          
+          {/* Campo para "Outras" doenças */}
+          <FormField
+            control={form.control}
+            name="otherChronicDisease"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Outras doenças crônicas</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="Especifique outras doenças crônicas..." 
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* Medicamentos em Uso */}
         <div className="space-y-4">
