@@ -53,7 +53,11 @@ export const LifestyleSection = ({ form }: LifestyleSectionProps) => {
                         type="number"
                         placeholder="Ex: 10"
                         {...field}
-                        onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(value === '' ? undefined : parseInt(value));
+                        }}
+                        value={field.value || ''}
                       />
                     </FormControl>
                     <FormMessage />

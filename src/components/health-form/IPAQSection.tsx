@@ -78,7 +78,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 3"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -97,7 +101,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 30"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -143,7 +151,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 2"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -162,7 +174,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 45"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -208,7 +224,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 5"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -227,7 +247,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                           type="number"
                           placeholder="Ex: 20"
                           {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? undefined : parseInt(value));
+                          }}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -253,7 +277,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                   type="number"
                   placeholder="Ex: 480"
                   {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseInt(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -272,7 +300,11 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
                   type="number"
                   placeholder="Ex: 300"
                   {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseInt(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />

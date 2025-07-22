@@ -104,7 +104,6 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   const form = useForm<HealthFormData>({
     resolver: zodResolver(healthFormSchema),
     defaultValues: {
-      age: 0,
       physicalActivity: false,
       moderateActivity: { performs: false, frequency: 0, duration: 0 },
       vigorousActivity: { performs: false, frequency: 0, duration: 0 },
@@ -113,19 +112,6 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       sittingTimeWeekends: 0,
       chronicDiseases: [],
       medications: '',
-      weight: 0,
-      height: 0,
-      waistCircumference: 0,
-      hipCircumference: 0,
-      calfCircumference: 0,
-      skeletalMuscle: 0,
-      fatMass: 0,
-      visceralFat: 0,
-      bodyAge: 0,
-      dailyKcal: 0,
-      handGripTest: 0,
-      sitToStandTest: 0,
-      walkingSpeedTest: 0,
       sarcF: {
         strength: 0,
         walkingAssistance: 0,

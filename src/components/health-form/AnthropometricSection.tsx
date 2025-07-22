@@ -47,7 +47,11 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   step="0.1"
                   placeholder="Ex: 70.5"
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseFloat(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -66,7 +70,11 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   type="number"
                   placeholder="Ex: 170"
                   {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseInt(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -107,7 +115,11 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   step="0.1"
                   placeholder="Ex: 85.5"
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseFloat(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -127,7 +139,11 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   step="0.1"
                   placeholder="Ex: 95.0"
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseFloat(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -168,7 +184,11 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   step="0.1"
                   placeholder="Ex: 35.0"
                   {...field}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === '' ? undefined : parseFloat(value));
+                  }}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
