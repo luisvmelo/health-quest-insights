@@ -38,28 +38,25 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     <FormSection title="Condições de Saúde">
       <div className="space-y-6">
         {/* Doenças Crônicas */}
-        <div>
-          <FormLabel className="text-base font-medium mb-4 block">
-            Doenças Crônicas (selecione todas que se aplicam)
-          </FormLabel>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {commonDiseases.map((disease) => (
-              <div key={disease} className="flex items-center space-x-2">
-                <Checkbox
-                  id={disease}
-                  checked={chronicDiseases.includes(disease)}
-                  onCheckedChange={(checked) => handleDiseaseChange(disease, checked as boolean)}
+        <FormField
+          control={form.control}
+          name="chronicDiseases"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Doenças Crônicas</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Digite as doenças crônicas que você possui..."
+                  className="min-h-[100px]"
+                  {...field}
+                  value={Array.isArray(field.value) ? field.value.join(', ') : field.value || ''}
+                  onChange={(e) => field.onChange(e.target.value)}
                 />
-                <label
-                  htmlFor={disease}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {disease}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Medicamentos em Uso */}
         <FormField
