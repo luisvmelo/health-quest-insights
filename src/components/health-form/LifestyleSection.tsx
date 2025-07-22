@@ -20,11 +20,13 @@ export const LifestyleSection = ({
   const cigarettesPerDay = form.watch('cigarettesPerDay');
   const quittingAge = form.watch('quittingAge');
   
-  // Novos campos para álcool
+  // Campos para álcool
   const sex = form.watch('sex');
-  const drinksCurrently = form.watch('drinksCurrently');
+  const alcoholStatus = form.watch('alcoholStatus');
   const drinkingFrequency = form.watch('drinkingFrequency');
   const dosesPerOccasion = form.watch('dosesPerOccasion');
+  const formerDrinkingFrequency = form.watch('formerDrinkingFrequency');
+  const formerDosesPerOccasion = form.watch('formerDosesPerOccasion');
   const alcoholConsumption = form.watch('alcoholConsumption');
 
   // Cálculo automático de maços-ano para fumantes atuais
@@ -49,24 +51,34 @@ export const LifestyleSection = ({
     }
   }, [smokingStatus, startSmokingAge, quittingAge, cigarettesPerDay, form]);
 
-  // Cálculo automático do consumo de álcool
+  // Cálculo automático do consumo de álcool para bebedores atuais
   useEffect(() => {
-    if (drinksCurrently && drinkingFrequency && dosesPerOccasion && sex) {
+    if (alcoholStatus === 'bebe-atualmente' && drinkingFrequency && dosesPerOccasion && sex) {
       const weeklyConsumption = (drinkingFrequency * dosesPerOccasion * 14) / 7;
       const threshold = sex === 'feminino' ? 20 : 40;
       const consumption = weeklyConsumption > threshold ? 'nocivo' : 'ocasional';
       form.setValue('alcoholConsumption', consumption);
-    } else if (!drinksCurrently) {
+    } else if (alcoholStatus === 'nao-bebe-mais' && formerDrinkingFrequency && formerDosesPerOccasion && sex) {
+      const weeklyConsumption = (formerDrinkingFrequency * formerDosesPerOccasion * 14) / 7;
+      const threshold = sex === 'feminino' ? 20 : 40;
+      const consumption = weeklyConsumption > threshold ? 'nocivo' : 'ocasional';
+      form.setValue('alcoholConsumption', consumption);
+    } else if (alcoholStatus === 'nunca') {
       form.setValue('alcoholConsumption', 'nunca');
+      // Limpar campos relacionados
       form.setValue('drinkingFrequency', undefined);
       form.setValue('dosesPerOccasion', undefined);
+      form.setValue('formerDrinkingFrequency', undefined);
+      form.setValue('formerDosesPerOccasion', undefined);
+      form.setValue('startDrinkingAge', undefined);
+      form.setValue('stopDrinkingAge', undefined);
     }
-  }, [drinksCurrently, drinkingFrequency, dosesPerOccasion, sex, form]);
+  }, [alcoholStatus, drinkingFrequency, dosesPerOccasion, formerDrinkingFrequency, formerDosesPerOccasion, sex, form]);
 
   // Helper function to get color class for alcohol consumption
   const getAlcoholConsumptionColorClass = (consumption: string) => {
     if (consumption === 'ocasional') {
-      return 'text-green-600 bg-green-50 border-green-200';
+      return 'text-yellow-700 bg-yellow-50 border-yellow-200';
     } else if (consumption === 'nocivo') {
       return 'text-red-600 bg-red-50 border-red-200';
     }
@@ -298,26 +310,32 @@ export const LifestyleSection = ({
         <div className="space-y-4">
           <FormField
             control={form.control}
-            name="drinksCurrently"
+            name="alcoholStatus"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Bebe atualmente?</FormLabel>
+                <FormLabel>Consumo de álcool</FormLabel>
                 <FormControl>
                   <RadioGroup
-                    onValueChange={(value) => field.onChange(value === 'sim')}
-                    value={field.value ? 'sim' : 'nao'}
-                    className="flex flex-row space-x-6"
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-3"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="sim" id="bebe-sim" />
-                      <label htmlFor="bebe-sim" className="text-sm font-medium">
-                        Sim
+                      <RadioGroupItem value="nunca" id="nunca-bebeu" />
+                      <label htmlFor="nunca-bebeu" className="text-sm font-medium">
+                        Nunca bebeu
                       </label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="nao" id="bebe-nao" />
-                      <label htmlFor="bebe-nao" className="text-sm font-medium">
-                        Não
+                      <RadioGroupItem value="nao-bebe-mais" id="nao-bebe-mais" />
+                      <label htmlFor="nao-bebe-mais" className="text-sm font-medium">
+                        Não bebe mais
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="bebe-atualmente" id="bebe-atualmente" />
+                      <label htmlFor="bebe-atualmente" className="text-sm font-medium">
+                        Bebe atualmente
                       </label>
                     </div>
                   </RadioGroup>
@@ -327,7 +345,8 @@ export const LifestyleSection = ({
             )}
           />
 
-          {drinksCurrently && (
+          {/* Campos para bebedor atual */}
+          {alcoholStatus === 'bebe-atualmente' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -381,27 +400,134 @@ export const LifestyleSection = ({
             </div>
           )}
 
-          {/* Campo de resultado automático */}
-          <FormField
-            control={form.control}
-            name="alcoholConsumption"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Consumo</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    {...field}
-                    value={field.value || ''}
-                    readOnly
-                    className={`capitalize ${getAlcoholConsumptionColorClass(field.value || '')}`}
-                    placeholder="Será calculado automaticamente"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Campos para ex-bebedor */}
+          {alcoholStatus === 'nao-bebe-mais' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="startDrinkingAge"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Que idade começou a beber?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 18"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="stopDrinkingAge"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Que idade parou de beber?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 35"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="formerDrinkingFrequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quantas vezes por semana bebia?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 2"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (/^\d+$/.test(value) && Number(value) <= 7)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="formerDosesPerOccasion"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quando bebia, quantas doses costumava tomar?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 3"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+
+          {/* Campo de resultado automático - aparece para bebedores atuais e ex-bebedores */}
+          {(alcoholStatus === 'bebe-atualmente' || alcoholStatus === 'nao-bebe-mais') && (
+            <FormField
+              control={form.control}
+              name="alcoholConsumption"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Consumo</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      value={field.value || ''}
+                      readOnly
+                      className={`capitalize ${getAlcoholConsumptionColorClass(field.value || '')}`}
+                      placeholder="Será calculado automaticamente"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
       </div>
     </FormSection>

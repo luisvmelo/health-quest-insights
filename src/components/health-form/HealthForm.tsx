@@ -54,9 +54,14 @@ const healthFormSchema = z.object({
   packsPerYear: z.number().optional(),
   quittingDate: z.string().optional(),
   quittingAge: z.number().optional(),
-  drinksCurrently: z.boolean(),
+  alcoholStatus: z.enum(['nunca', 'nao-bebe-mais', 'bebe-atualmente']),
+  drinksCurrently: z.boolean().optional(),
   drinkingFrequency: z.number().optional(),
   dosesPerOccasion: z.number().optional(),
+  startDrinkingAge: z.number().optional(),
+  stopDrinkingAge: z.number().optional(),
+  formerDrinkingFrequency: z.number().optional(),
+  formerDosesPerOccasion: z.number().optional(),
   alcoholConsumption: z.enum(['nunca', 'ocasional', 'nocivo']),
 
   // Condições de Saúde
@@ -122,6 +127,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       lightWalking: { performs: false, frequency: 0, duration: 0 },
       sittingTimeWeekdays: 0,
       sittingTimeWeekends: 0,
+      alcoholStatus: 'nunca',
       drinksCurrently: false,
       alcoholConsumption: 'nunca',
       chronicDiseases: [],

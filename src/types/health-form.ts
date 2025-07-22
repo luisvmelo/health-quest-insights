@@ -32,10 +32,15 @@ export interface HealthFormData {
   packsPerYear?: number;
   quittingAge?: number;
 
-  // Consumo de Álcool - Nova estrutura
-  drinksCurrently: boolean;
+  // Consumo de Álcool - Estrutura atualizada
+  alcoholStatus: 'nunca' | 'nao-bebe-mais' | 'bebe-atualmente';
+  drinksCurrently?: boolean; // mantido para compatibilidade
   drinkingFrequency?: number; // vezes por semana
   dosesPerOccasion?: number; // doses por ocasião
+  startDrinkingAge?: number; // idade que começou a beber (ex-bebedor)
+  stopDrinkingAge?: number; // idade que parou de beber (ex-bebedor)
+  formerDrinkingFrequency?: number; // vezes por semana quando bebia (ex-bebedor)
+  formerDosesPerOccasion?: number; // doses por ocasião quando bebia (ex-bebedor)
   alcoholConsumption: 'nunca' | 'ocasional' | 'nocivo';
 
   // Condições de Saúde
