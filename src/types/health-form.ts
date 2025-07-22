@@ -32,8 +32,11 @@ export interface HealthFormData {
   packsPerYear?: number;
   quittingAge?: number;
 
-  // Consumo de Álcool
-  alcoholConsumption: 'nunca' | 'ocasional' | 'regular' | 'excessivo';
+  // Consumo de Álcool - Nova estrutura
+  drinksCurrently: boolean;
+  drinkingFrequency?: number; // vezes por semana
+  dosesPerOccasion?: number; // doses por ocasião
+  alcoholConsumption: 'nunca' | 'ocasional' | 'nocivo';
 
   // Condições de Saúde
   chronicDiseases: string[]; // Array de strings para doenças crônicas

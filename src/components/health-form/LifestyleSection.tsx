@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -19,6 +20,12 @@ export const LifestyleSection = ({
   const startSmokingAge = form.watch('startSmokingAge');
   const cigarettesPerDay = form.watch('cigarettesPerDay');
   const quittingAge = form.watch('quittingAge');
+  
+  // Novos campos para álcool
+  const sex = form.watch('sex');
+  const drinksCurrently = form.watch('drinksCurrently');
+  const drinkingFrequency = form.watch('drinkingFrequency');
+  const dosesPerOccasion = form.watch('dosesPerOccasion');
 
   // Cálculo automático de maços-ano para fumantes atuais
   useEffect(() => {
@@ -41,6 +48,20 @@ export const LifestyleSection = ({
       }
     }
   }, [smokingStatus, startSmokingAge, quittingAge, cigarettesPerDay, form]);
+
+  // Cálculo automático do consumo de álcool
+  useEffect(() => {
+    if (drinksCurrently && drinkingFrequency && dosesPerOccasion && sex) {
+      const weeklyConsumption = (drinkingFrequency * dosesPerOccasion * 14) / 7;
+      const threshold = sex === 'feminino' ? 20 : 40;
+      const consumption = weeklyConsumption > threshold ? 'nocivo' : 'ocasional';
+      form.setValue('alcoholConsumption', consumption);
+    } else if (!drinksCurrently) {
+      form.setValue('alcoholConsumption', 'nunca');
+      form.setValue('drinkingFrequency', undefined);
+      form.setValue('dosesPerOccasion', undefined);
+    }
+  }, [drinksCurrently, drinkingFrequency, dosesPerOccasion, sex, form]);
 
   return (
     <FormSection title="Hábitos de Vida Adicionais">
@@ -264,29 +285,114 @@ export const LifestyleSection = ({
         </div>
 
         {/* Consumo de Álcool */}
-        <FormField
-          control={form.control}
-          name="alcoholConsumption"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Consumo de Álcool</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="drinksCurrently"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Bebe atualmente?</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o padrão de consumo" />
-                  </SelectTrigger>
+                  <RadioGroup
+                    onValueChange={(value) => field.onChange(value === 'sim')}
+                    value={field.value ? 'sim' : 'nao'}
+                    className="flex flex-row space-x-6"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="sim" id="bebe-sim" />
+                      <label htmlFor="bebe-sim" className="text-sm font-medium">
+                        Sim
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="nao" id="bebe-nao" />
+                      <label htmlFor="bebe-nao" className="text-sm font-medium">
+                        Não
+                      </label>
+                    </div>
+                  </RadioGroup>
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="nunca">Nunca bebe</SelectItem>
-                  <SelectItem value="ocasional">Ocasional (1-2x por mês)</SelectItem>
-                  <SelectItem value="regular">Regular (1-2x por semana)</SelectItem>
-                  <SelectItem value="excessivo">Excessivo (diário ou quase diário)</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {drinksCurrently && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="drinkingFrequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quantas vezes por semana?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 2"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="dosesPerOccasion"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quando bebe, quantas doses costuma tomar?</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 3"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           )}
-        />
+
+          {/* Campo de resultado automático */}
+          <FormField
+            control={form.control}
+            name="alcoholConsumption"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Consumo</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    {...field}
+                    value={field.value || ''}
+                    readOnly
+                    className="bg-gray-100 capitalize"
+                    placeholder="Será calculado automaticamente"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
     </FormSection>
   );

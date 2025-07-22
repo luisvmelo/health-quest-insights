@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -46,14 +47,17 @@ const healthFormSchema = z.object({
   sittingTimeWeekdays: z.number().min(0),
   sittingTimeWeekends: z.number().min(0),
 
-  // Tabagismo e Álcool
+  // Tabagismo e Álcool - Atualizado
   smokingStatus: z.enum(['nunca', 'fumante', 'ex-fumante']),
   startSmokingAge: z.number().optional(),
   cigarettesPerDay: z.number().optional(),
   packsPerYear: z.number().optional(),
   quittingDate: z.string().optional(),
   quittingAge: z.number().optional(),
-  alcoholConsumption: z.enum(['nunca', 'ocasional', 'regular', 'excessivo']),
+  drinksCurrently: z.boolean(),
+  drinkingFrequency: z.number().optional(),
+  dosesPerOccasion: z.number().optional(),
+  alcoholConsumption: z.enum(['nunca', 'ocasional', 'nocivo']),
 
   // Condições de Saúde
   chronicDiseases: z.array(z.string()),
@@ -118,6 +122,8 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       lightWalking: { performs: false, frequency: 0, duration: 0 },
       sittingTimeWeekdays: 0,
       sittingTimeWeekends: 0,
+      drinksCurrently: false,
+      alcoholConsumption: 'nunca',
       chronicDiseases: [],
       medications: [],
       sarcF: {
