@@ -2,6 +2,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
 
@@ -21,20 +22,34 @@ export const LifestyleSection = ({ form }: LifestyleSectionProps) => {
             control={form.control}
             name="smokingStatus"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="space-y-3">
                 <FormLabel>Status de Tabagismo</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione o status" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="nunca">Nunca fumou</SelectItem>
-                    <SelectItem value="fumante">Fumante atual</SelectItem>
-                    <SelectItem value="ex-fumante">Ex-fumante</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-3"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="nunca" id="nunca" />
+                      <label htmlFor="nunca" className="text-sm font-medium">
+                        Nunca fumou
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="fumante" id="fumante" />
+                      <label htmlFor="fumante" className="text-sm font-medium">
+                        Fumante atual
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="ex-fumante" id="ex-fumante" />
+                      <label htmlFor="ex-fumante" className="text-sm font-medium">
+                        Ex-fumante
+                      </label>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
