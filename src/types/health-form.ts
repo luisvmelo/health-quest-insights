@@ -37,7 +37,7 @@ export interface HealthFormData {
 
   // Condições de Saúde
   chronicDiseases: string[];
-  otherChronicDisease?: string;
+  otherChronicDiseases: string[];
   medications: Array<{
     name: string;
     dosage: string;

@@ -24,9 +24,14 @@ const chronicDiseaseOptions = [
 export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) => {
   const chronicDiseases = form.watch('chronicDiseases') || [];
   
-  const { fields, append, remove } = useFieldArray({
+  const { fields: medicationFields, append: appendMedication, remove: removeMedication } = useFieldArray({
     control: form.control,
     name: "medications"
+  });
+
+  const { fields: otherDiseaseFields, append: appendOtherDisease, remove: removeOtherDisease } = useFieldArray({
+    control: form.control,
+    name: "otherChronicDiseases"
   });
 
   const handleDiseaseChange = (disease: string, checked: boolean) => {
@@ -47,7 +52,11 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
   };
 
   const addMedication = () => {
-    append({ name: '', dosage: '', frequency: '' });
+    appendMedication({ name: '', dosage: '', frequency: '' });
+  };
+
+  const addOtherDisease = () => {
+    appendOtherDisease('');
   };
 
   const noMedications = form.watch('noMedications');
@@ -84,22 +93,59 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
           </div>
           
           {/* Campo para "Outras" doenças */}
-          <FormField
-            control={form.control}
-            name="otherChronicDisease"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Outras doenças crônicas</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="Especifique outras doenças crônicas..." 
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
+            </div>
+
+            {otherDiseaseFields.length === 0 && (
+              <div className="text-center py-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Nenhuma outra doença adicionada ainda
+                </p>
+                <Button type="button" onClick={addOtherDisease} variant="outline" className="w-full">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Adicionar outra doença crônica
+                </Button>
+              </div>
             )}
-          />
+
+            {otherDiseaseFields.map((field, index) => (
+              <div key={field.id} className="flex gap-2 items-end">
+                <FormField
+                  control={form.control}
+                  name={`otherChronicDiseases.${index}`}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      {index === 0 && <FormLabel>Nome da doença</FormLabel>}
+                      <FormControl>
+                        <Input 
+                          placeholder="Ex: Fibromialgia, Artrite reumatoide..." 
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => removeOtherDisease(index)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+
+            {otherDiseaseFields.length > 0 && (
+              <Button type="button" onClick={addOtherDisease} variant="outline" className="w-full">
+                <Plus className="h-4 w-4 mr-2" />
+                Adicionar outra doença crônica
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Medicamentos em Uso */}
@@ -127,7 +173,7 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
 
           {!noMedications && (
             <div className="space-y-4">
-              {fields.length === 0 && (
+              {medicationFields.length === 0 && (
                 <div className="text-center py-4">
                   <p className="text-sm text-muted-foreground mb-4">
                     Nenhum medicamento adicionado ainda
@@ -139,7 +185,7 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                 </div>
               )}
 
-              {fields.map((field, index) => (
+              {medicationFields.map((field, index) => (
                 <div key={field.id} className="p-4 border rounded-lg space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">Medicamento {index + 1}</h4>
@@ -147,7 +193,7 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                       type="button"
                       variant="destructive"
                       size="sm"
-                      onClick={() => remove(index)}
+                      onClick={() => removeMedication(index)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -199,7 +245,7 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                 </div>
               ))}
 
-              {fields.length > 0 && (
+              {medicationFields.length > 0 && (
                 <Button type="button" onClick={addMedication} variant="outline" className="w-full">
                   <Plus className="h-4 w-4 mr-2" />
                   Adicionar outro medicamento
