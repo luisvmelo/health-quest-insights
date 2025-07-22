@@ -89,7 +89,8 @@ export const LifestyleSection = ({ form }: LifestyleSectionProps) => {
                       <FormLabel>Data que parou de fumar</FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
+                          type="text"
+                          placeholder="DD/MM/AAAA"
                           {...field}
                         />
                       </FormControl>
