@@ -6,9 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
+
 interface LifestyleSectionProps {
   form: UseFormReturn<HealthFormData>;
 }
+
 export const LifestyleSection = ({
   form
 }: LifestyleSectionProps) => {
@@ -27,10 +29,12 @@ export const LifestyleSection = ({
       }
     }
   }, [smokingStatus, age, startSmokingAge, cigarettesPerDay, form]);
+
   return <FormSection title="Hábitos de Vida Adicionais">
       <div className="space-y-4">
         {/* Tabagismo */}
         <div className="space-y-4">
+          {/* Status de Tabagismo */}
           <FormField control={form.control} name="smokingStatus" render={({
           field
         }) => <FormItem className="space-y-3">
@@ -88,15 +92,26 @@ export const LifestyleSection = ({
                     <FormMessage />
                   </FormItem>} />
 
-              <FormField control={form.control} name="packsPerYear" render={({
-            field
-          }) => <FormItem className="md:col-span-2">
+              <FormField
+                control={form.control}
+                name="packsPerYear"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Maços-ano</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} value={field.value || ''} readOnly className="bg-gray-100" placeholder="Será calculado automaticamente" />
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ''}
+                        readOnly
+                        className="bg-gray-100"
+                        placeholder="Será calculado automaticamente"
+                      />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </div>}
 
           {/* Campos para ex-fumante */}
