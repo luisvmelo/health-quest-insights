@@ -54,7 +54,12 @@ const healthFormSchema = z.object({
 
   // Condições de Saúde
   chronicDiseases: z.array(z.string()),
-  medications: z.string(),
+  medications: z.array(z.object({
+    name: z.string(),
+    dosage: z.string(),
+    frequency: z.string(),
+  })),
+  noMedications: z.boolean().optional(),
 
   // Medidas Antropométricas
   weight: z.number().min(20, 'Peso deve ser maior que 20kg').max(300, 'Peso deve ser menor que 300kg'),
@@ -111,7 +116,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       sittingTimeWeekdays: 0,
       sittingTimeWeekends: 0,
       chronicDiseases: [],
-      medications: '',
+      medications: [],
       sarcF: {
         strength: 0,
         walkingAssistance: 0,

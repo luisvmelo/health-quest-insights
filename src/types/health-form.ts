@@ -34,7 +34,12 @@ export interface HealthFormData {
 
   // Condições de Saúde
   chronicDiseases: string[];
-  medications: string;
+  medications: Array<{
+    name: string;
+    dosage: string;
+    frequency: string;
+  }>;
+  noMedications?: boolean;
 
   // Medidas Antropométricas
   weight: number;
