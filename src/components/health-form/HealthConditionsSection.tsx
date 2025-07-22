@@ -93,41 +93,45 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
           </div>
           
           {/* Campo para "Outras" doenças */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
             
-            {otherDiseaseFields.map((field, index) => (
-              <div key={field.id} className="flex gap-2 items-end">
-                <FormField
-                  control={form.control}
-                  name={`otherChronicDiseases.${index}`}
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormControl>
-                        <Input 
-                          placeholder="Digite o nome da doença..." 
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeOtherDisease(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+            <div className="space-y-2">
+              {otherDiseaseFields.map((field, index) => (
+                <div key={field.id} className="flex gap-2 items-center">
+                  <FormField
+                    control={form.control}
+                    name={`otherChronicDiseases.${index}`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <Input 
+                            placeholder="Digite o nome da doença..." 
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => removeOtherDisease(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
 
-            <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Adicionar outra doença
-            </Button>
+            <div className="flex justify-start">
+              <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Adicionar outra doença
+              </Button>
+            </div>
           </div>
         </div>
 
