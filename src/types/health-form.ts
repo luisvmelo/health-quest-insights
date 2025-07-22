@@ -1,4 +1,3 @@
-
 export interface HealthFormData {
   // Características Biológicas e Sociodemográficas
   age: number;
@@ -38,6 +37,7 @@ export interface HealthFormData {
   // Condições de Saúde
   chronicDiseases: string[];
   otherChronicDiseases: string[];
+  noChronicDiseases?: boolean;
   medications: Array<{
     name: string;
     dosage: string;

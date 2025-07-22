@@ -43,6 +43,15 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     }
   };
 
+  const handleNoChronicDiseasesChange = (checked: boolean) => {
+    form.setValue('noChronicDiseases', checked);
+    if (checked) {
+      // Clear all chronic diseases and other diseases when "não possui" is checked
+      form.setValue('chronicDiseases', []);
+      form.setValue('otherChronicDiseases', []);
+    }
+  };
+
   const handleNoMedicationsChange = (checked: boolean) => {
     form.setValue('noMedications', checked);
     if (checked) {
@@ -60,79 +69,104 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
   };
 
   const noMedications = form.watch('noMedications');
+  const noChronicDiseases = form.watch('noChronicDiseases');
 
   return (
     <FormSection title="Condições de Saúde">
       <div className="space-y-6">
         {/* Doenças Crônicas */}
         <div className="space-y-4">
-          <FormLabel className="text-base font-medium">Doenças Crônicas</FormLabel>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {chronicDiseaseOptions.map((disease) => (
-              <FormField
-                key={disease.value}
-                control={form.control}
-                name="chronicDiseases"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        checked={chronicDiseases.includes(disease.value)}
-                        onCheckedChange={(checked) => 
-                          handleDiseaseChange(disease.value, checked as boolean)
-                        }
-                      />
-                    </FormControl>
-                    <FormLabel className="text-sm font-normal">
-                      {disease.label}
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-            ))}
+          <div className="flex items-center justify-between">
+            <FormLabel className="text-base font-medium">Doenças Crônicas</FormLabel>
+            <FormField
+              control={form.control}
+              name="noChronicDiseases"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={handleNoChronicDiseasesChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="text-sm font-normal">
+                    Não possui doenças crônicas
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
           </div>
-          
-          {/* Campo para "Outras" doenças */}
-          <div className="space-y-3">
-            <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
-            
-            <div className="space-y-2">
-              {otherDiseaseFields.map((field, index) => (
-                <div key={field.id} className="flex gap-2 items-center">
+
+          {!noChronicDiseases && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {chronicDiseaseOptions.map((disease) => (
                   <FormField
+                    key={disease.value}
                     control={form.control}
-                    name={`otherChronicDiseases.${index}`}
+                    name="chronicDiseases"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
+                      <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                         <FormControl>
-                          <Input 
-                            placeholder="Digite o nome da doença..." 
-                            {...field}
+                          <Checkbox
+                            checked={chronicDiseases.includes(disease.value)}
+                            onCheckedChange={(checked) => 
+                              handleDiseaseChange(disease.value, checked as boolean)
+                            }
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormLabel className="text-sm font-normal">
+                          {disease.label}
+                        </FormLabel>
                       </FormItem>
                     )}
                   />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => removeOtherDisease(index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
+                ))}
+              </div>
+              
+              {/* Campo para "Outras" doenças */}
+              <div className="space-y-3">
+                <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
+                
+                <div className="space-y-2">
+                  {otherDiseaseFields.map((field, index) => (
+                    <div key={field.id} className="flex gap-2 items-center">
+                      <FormField
+                        control={form.control}
+                        name={`otherChronicDiseases.${index}`}
+                        render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormControl>
+                              <Input 
+                                placeholder="Digite o nome da doença..." 
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => removeOtherDisease(index)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-start">
+                  <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Adicionar outra doença
                   </Button>
                 </div>
-              ))}
-            </div>
-
-            <div className="flex justify-start">
-              <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
-                <Plus className="h-4 w-4 mr-2" />
-                Adicionar outra doença
-              </Button>
-            </div>
-          </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Medicamentos em Uso */}
