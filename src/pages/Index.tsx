@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { HealthForm } from '@/components/health-form/HealthForm';
+import { StatisticsView } from '@/components/health-form/StatisticsView';
+import { HealthFormData } from '@/types/health-form';
 
 const Index = () => {
+  const [showStatistics, setShowStatistics] = useState(false);
+  const [formsData, setFormsData] = useState<HealthFormData[]>([]);
+
+  const handleFormSubmit = (data: HealthFormData) => {
+    setFormsData(prev => [...prev, data]);
+  };
+
+  const handleShowStatistics = () => {
+    setShowStatistics(true);
+  };
+
+  const handleBackToForm = () => {
+    setShowStatistics(false);
+  };
+
+  if (showStatistics) {
+    return (
+      <StatisticsView 
+        data={formsData} 
+        onBack={handleBackToForm}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <HealthForm 
+        onFormSubmit={handleFormSubmit}
+        onShowStatistics={handleShowStatistics}
+        totalForms={formsData.length}
+      />
     </div>
   );
 };
