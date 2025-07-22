@@ -1,5 +1,3 @@
-
-
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -8,11 +6,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
-
 interface LifestyleSectionProps {
   form: UseFormReturn<HealthFormData>;
 }
-
 export const LifestyleSection = ({
   form
 }: LifestyleSectionProps) => {
@@ -43,7 +39,6 @@ export const LifestyleSection = ({
       }
     }
   }, [smokingStatus, startSmokingAge, quittingAge, cigarettesPerDay, form]);
-
   return <FormSection title="Hábitos de Vida Adicionais">
       <div className="space-y-4">
         {/* Tabagismo */}
@@ -85,16 +80,10 @@ export const LifestyleSection = ({
           }) => <FormItem>
                     <FormLabel>Idade que começou a fumar</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        placeholder="Ex: 18" 
-                        {...field} 
-                        onChange={e => {
-                          const value = e.target.value;
-                          field.onChange(value === '' ? '' : Number(value));
-                        }} 
-                        value={field.value || ''} 
-                      />
+                      <Input type="number" placeholder="Ex: 18" {...field} onChange={e => {
+                const value = e.target.value;
+                field.onChange(value === '' ? '' : Number(value));
+              }} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
@@ -104,40 +93,23 @@ export const LifestyleSection = ({
           }) => <FormItem>
                     <FormLabel>Cigarros por dia</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        placeholder="Ex: 20" 
-                        {...field} 
-                        onChange={e => {
-                          const value = e.target.value;
-                          field.onChange(value === '' ? '' : Number(value));
-                        }} 
-                        value={field.value || ''} 
-                      />
+                      <Input type="number" placeholder="Ex: 20" {...field} onChange={e => {
+                const value = e.target.value;
+                field.onChange(value === '' ? '' : Number(value));
+              }} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
 
-              <FormField
-                control={form.control}
-                name="packsPerYear"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="packsPerYear" render={({
+            field
+          }) => <FormItem>
                     <FormLabel>Maços-ano</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value || ''}
-                        readOnly
-                        className="bg-gray-100"
-                        placeholder="Será calculado automaticamente"
-                      />
+                      <Input type="number" {...field} value={field.value || ''} readOnly className="bg-gray-100" placeholder="Será calculado automaticamente" />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
             </div>}
 
           {/* Campos para ex-fumante */}
@@ -148,16 +120,10 @@ export const LifestyleSection = ({
             }) => <FormItem>
                       <FormLabel>Idade que começou a fumar</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Ex: 18" 
-                          {...field} 
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? '' : Number(value));
-                          }} 
-                          value={field.value || ''} 
-                        />
+                        <Input type="number" placeholder="Ex: 18" {...field} onChange={e => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? '' : Number(value));
+                }} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
@@ -167,16 +133,10 @@ export const LifestyleSection = ({
             }) => <FormItem>
                       <FormLabel>Idade que parou de fumar</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Ex: 35" 
-                          {...field} 
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? '' : Number(value));
-                          }} 
-                          value={field.value || ''} 
-                        />
+                        <Input type="number" placeholder="Ex: 35" {...field} onChange={e => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? '' : Number(value));
+                }} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
@@ -186,52 +146,29 @@ export const LifestyleSection = ({
             }) => <FormItem>
                       <FormLabel>Cigarros por dia</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          placeholder="Ex: 20" 
-                          {...field} 
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? '' : Number(value));
-                          }} 
-                          value={field.value || ''} 
-                        />
+                        <Input type="number" placeholder="Ex: 20" {...field} onChange={e => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? '' : Number(value));
+                }} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="packsPerYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Maços-ano</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          value={field.value || ''}
-                          readOnly
-                          className="bg-gray-100"
-                          placeholder="Será calculado automaticamente"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField control={form.control} name="quittingDate" render={({
+                <FormField control={form.control} name="packsPerYear" render={({
               field
             }) => <FormItem>
-                      <FormLabel>Data que parou de fumar</FormLabel>
+                      <FormLabel>Maços-ano</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="DD/MM/AAAA" {...field} />
+                        <Input type="number" {...field} value={field.value || ''} readOnly className="bg-gray-100" placeholder="Será calculado automaticamente" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
+
+                <FormField control={form.control} name="quittingDate" render={({
+              field
+            }) => {}} />
               </div>
             </div>}
         </div>
