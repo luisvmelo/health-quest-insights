@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
+import { useState } from 'react';
+
 
 interface HealthConditionsSectionProps {
   form: UseFormReturn<HealthFormData>;
