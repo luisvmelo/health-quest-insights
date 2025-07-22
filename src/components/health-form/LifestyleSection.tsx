@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -71,10 +72,16 @@ export const LifestyleSection = ({
           }) => <FormItem>
                     <FormLabel>Idade que começou a fumar</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 18" {...field} onChange={e => {
-                const value = e.target.value;
-                field.onChange(value === '' ? undefined : parseInt(value));
-              }} value={field.value || ''} />
+                      <Input 
+                        type="number" 
+                        placeholder="Ex: 18" 
+                        {...field} 
+                        onChange={e => {
+                          const value = e.target.value;
+                          field.onChange(value === '' ? '' : Number(value));
+                        }} 
+                        value={field.value || ''} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
@@ -84,10 +91,16 @@ export const LifestyleSection = ({
           }) => <FormItem>
                     <FormLabel>Cigarros por dia</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 20" {...field} onChange={e => {
-                const value = e.target.value;
-                field.onChange(value === '' ? undefined : parseInt(value));
-              }} value={field.value || ''} />
+                      <Input 
+                        type="number" 
+                        placeholder="Ex: 20" 
+                        {...field} 
+                        onChange={e => {
+                          const value = e.target.value;
+                          field.onChange(value === '' ? '' : Number(value));
+                        }} 
+                        value={field.value || ''} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
@@ -121,10 +134,16 @@ export const LifestyleSection = ({
           }) => <FormItem>
                     <FormLabel>Maços por ano</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 10" {...field} onChange={e => {
-                const value = e.target.value;
-                field.onChange(value === '' ? undefined : parseInt(value));
-              }} value={field.value || ''} />
+                      <Input 
+                        type="number" 
+                        placeholder="Ex: 10" 
+                        {...field} 
+                        onChange={e => {
+                          const value = e.target.value;
+                          field.onChange(value === '' ? '' : Number(value));
+                        }} 
+                        value={field.value || ''} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
