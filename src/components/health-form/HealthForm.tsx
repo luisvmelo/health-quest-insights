@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,7 +27,7 @@ const healthFormSchema = z.object({
   race: z.enum(['branco', 'negro', 'pardo', 'amarelo', 'indigena'], { required_error: 'Raça é obrigatória' }),
 
   // Hábitos de Vida - IPAQ
-  physicalActivity: z.boolean(),
+  physicalActivity: z.boolean().optional(),
   moderateActivity: z.object({
     performs: z.boolean(),
     frequency: z.number().min(0).max(7),
@@ -48,13 +47,13 @@ const healthFormSchema = z.object({
   sittingTimeWeekends: z.number().min(0),
 
   // Tabagismo e Álcool - Atualizado
-  smokingStatus: z.enum(['nunca', 'fumante', 'ex-fumante']),
+  smokingStatus: z.enum(['nunca', 'fumante', 'ex-fumante']).optional(),
   startSmokingAge: z.number().optional(),
   cigarettesPerDay: z.number().optional(),
   packsPerYear: z.number().optional(),
   quittingDate: z.string().optional(),
   quittingAge: z.number().optional(),
-  alcoholStatus: z.enum(['nunca', 'nao-bebe-mais', 'bebe-atualmente']),
+  alcoholStatus: z.enum(['nunca', 'nao-bebe-mais', 'bebe-atualmente']).optional(),
   drinksCurrently: z.boolean().optional(),
   drinkingFrequency: z.number().optional(),
   dosesPerOccasion: z.number().optional(),
@@ -62,7 +61,7 @@ const healthFormSchema = z.object({
   stopDrinkingAge: z.number().optional(),
   formerDrinkingFrequency: z.number().optional(),
   formerDosesPerOccasion: z.number().optional(),
-  alcoholConsumption: z.enum(['nunca', 'ocasional', 'nocivo']),
+  alcoholConsumption: z.enum(['nunca', 'ocasional', 'nocivo']).optional(),
 
   // Condições de Saúde
   chronicDiseases: z.array(z.string()),
@@ -95,15 +94,15 @@ const healthFormSchema = z.object({
   walkingSpeedTest: z.number().min(0.1, 'Valor deve ser maior que 0.1m/s').max(3, 'Valor deve ser menor que 3m/s'),
 
   // Sarcopenia
-  sarcopeniaStatus: z.enum(['pre-sarcopenica', 'sarcopenica', 'sarcopenia-grave']),
+  sarcopeniaStatus: z.enum(['pre-sarcopenica', 'sarcopenica', 'sarcopenia-grave']).optional(),
 
   // SARC-F
   sarcF: z.object({
-    strength: z.number().min(0).max(2),
-    walkingAssistance: z.number().min(0).max(2),
-    chairRising: z.number().min(0).max(2),
-    stairClimbing: z.number().min(0).max(2),
-    falls: z.number().min(0).max(2),
+    strength: z.number().min(0).max(2).optional(),
+    walkingAssistance: z.number().min(0).max(2).optional(),
+    chairRising: z.number().min(0).max(2).optional(),
+    stairClimbing: z.number().min(0).max(2).optional(),
+    falls: z.number().min(0).max(2).optional(),
     total: z.number().optional(),
     interpretation: z.string().optional(),
   }),
@@ -121,24 +120,12 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   const form = useForm<HealthFormData>({
     resolver: zodResolver(healthFormSchema),
     defaultValues: {
-      physicalActivity: false,
       moderateActivity: { performs: false, frequency: 0, duration: 0 },
       vigorousActivity: { performs: false, frequency: 0, duration: 0 },
       lightWalking: { performs: false, frequency: 0, duration: 0 },
-      sittingTimeWeekdays: 0,
-      sittingTimeWeekends: 0,
-      alcoholStatus: 'nunca',
-      drinksCurrently: false,
-      alcoholConsumption: 'nunca',
       chronicDiseases: [],
       medications: [],
-      sarcF: {
-        strength: 0,
-        walkingAssistance: 0,
-        chairRising: 0,
-        stairClimbing: 0,
-        falls: 0,
-      },
+      sarcF: {},
     },
   });
 
