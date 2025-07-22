@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -164,124 +163,102 @@ export const LifestyleSection = ({
 
           {/* Campos para ex-fumante */}
           {smokingStatus === 'ex-fumante' && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="startSmokingAge"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Idade que começou a fumar</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Ex: 18"
-                          {...field}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value === '' || /^\d+$/.test(value)) {
-                              field.onChange(value === '' ? undefined : Number(value));
-                            }
-                          }}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <FormField
+                control={form.control}
+                name="startSmokingAge"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Idade que começou a fumar</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 18"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="quittingAge"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Idade que parou de fumar</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Ex: 35"
-                          {...field}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value === '' || /^\d+$/.test(value)) {
-                              field.onChange(value === '' ? undefined : Number(value));
-                            }
-                          }}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="quittingAge"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Idade que parou de fumar</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 35"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="cigarettesPerDay"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Cigarros por dia</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Ex: 20"
-                          {...field}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value === '' || /^\d+$/.test(value)) {
-                              field.onChange(value === '' ? undefined : Number(value));
-                            }
-                          }}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="cigarettesPerDay"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cigarros por dia</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Ex: 20"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || /^\d+$/.test(value)) {
+                            field.onChange(value === '' ? undefined : Number(value));
+                          }
+                        }}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="packsPerYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Maços-ano</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          value={field.value || ''}
-                          readOnly
-                          className="bg-gray-100"
-                          placeholder="Será calculado automaticamente"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="quittingDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Data que parou de fumar</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          {...field}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="packsPerYear"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Maços-ano</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ''}
+                        readOnly
+                        className="bg-gray-100"
+                        placeholder="Será calculado automaticamente"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           )}
         </div>
