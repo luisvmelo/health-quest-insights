@@ -2,6 +2,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
 
@@ -21,18 +22,29 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
         control={form.control}
         name="physicalActivity"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormItem className="space-y-3">
+            <FormLabel>Realiza atividade física?</FormLabel>
             <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <RadioGroup
+                onValueChange={(value) => field.onChange(value === 'sim')}
+                value={field.value ? 'sim' : 'nao'}
+                className="flex flex-col space-y-3"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="sim" id="atividade-sim" />
+                  <label htmlFor="atividade-sim" className="text-sm font-medium">
+                    Sim
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="nao" id="atividade-nao" />
+                  <label htmlFor="atividade-nao" className="text-sm font-medium">
+                    Não
+                  </label>
+                </div>
+              </RadioGroup>
             </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel className="text-base font-medium">
-                Realiza atividade física?
-              </FormLabel>
-            </div>
+            <FormMessage />
           </FormItem>
         )}
       />
