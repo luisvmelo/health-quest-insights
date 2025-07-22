@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -26,6 +25,7 @@ export const LifestyleSection = ({
   const drinksCurrently = form.watch('drinksCurrently');
   const drinkingFrequency = form.watch('drinkingFrequency');
   const dosesPerOccasion = form.watch('dosesPerOccasion');
+  const alcoholConsumption = form.watch('alcoholConsumption');
 
   // Cálculo automático de maços-ano para fumantes atuais
   useEffect(() => {
@@ -62,6 +62,16 @@ export const LifestyleSection = ({
       form.setValue('dosesPerOccasion', undefined);
     }
   }, [drinksCurrently, drinkingFrequency, dosesPerOccasion, sex, form]);
+
+  // Helper function to get color class for alcohol consumption
+  const getAlcoholConsumptionColorClass = (consumption: string) => {
+    if (consumption === 'ocasional') {
+      return 'text-green-600 bg-green-50 border-green-200';
+    } else if (consumption === 'nocivo') {
+      return 'text-red-600 bg-red-50 border-red-200';
+    }
+    return 'bg-gray-100';
+  };
 
   return (
     <FormSection title="Hábitos de Vida Adicionais">
@@ -332,7 +342,7 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
+                          if (value === '' || (/^\d+$/.test(value) && Number(value) <= 7)) {
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
@@ -384,7 +394,7 @@ export const LifestyleSection = ({
                     {...field}
                     value={field.value || ''}
                     readOnly
-                    className="bg-gray-100 capitalize"
+                    className={`capitalize ${getAlcoholConsumptionColorClass(field.value || '')}`}
                     placeholder="Será calculado automaticamente"
                   />
                 </FormControl>
