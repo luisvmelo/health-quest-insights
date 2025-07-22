@@ -13,11 +13,11 @@ interface HealthConditionsSectionProps {
 }
 
 const chronicDiseaseOptions = [
-  { value: 'DM', label: 'DM (Diabetes Mellitus)' },
-  { value: 'HAS', label: 'HAS (Hipertensão Arterial Sistêmica)' },
+  { value: 'DM', label: 'DM' },
+  { value: 'HAS', label: 'HAS' },
   { value: 'Dislipidemia', label: 'Dislipidemia' },
-  { value: 'DRC', label: 'DRC (Doença Renal Crônica)' },
-  { value: 'DHC', label: 'DHC (Doença Hepática Crônica)' },
+  { value: 'DRC', label: 'DRC' },
+  { value: 'DHC', label: 'DHC' },
   { value: 'Hipotireoidismo', label: 'Hipotireoidismo' },
 ];
 
@@ -94,22 +94,8 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
           
           {/* Campo para "Outras" doenças */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
-            </div>
-
-            {otherDiseaseFields.length === 0 && (
-              <div className="text-center py-4">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Nenhuma outra doença adicionada ainda
-                </p>
-                <Button type="button" onClick={addOtherDisease} variant="outline" className="w-full">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Adicionar outra doença crônica
-                </Button>
-              </div>
-            )}
-
+            <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
+            
             {otherDiseaseFields.map((field, index) => (
               <div key={field.id} className="flex gap-2 items-end">
                 <FormField
@@ -117,10 +103,9 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                   name={`otherChronicDiseases.${index}`}
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      {index === 0 && <FormLabel>Nome da doença</FormLabel>}
                       <FormControl>
                         <Input 
-                          placeholder="Ex: Fibromialgia, Artrite reumatoide..." 
+                          placeholder="Digite o nome da doença..." 
                           {...field}
                         />
                       </FormControl>
@@ -139,12 +124,10 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
               </div>
             ))}
 
-            {otherDiseaseFields.length > 0 && (
-              <Button type="button" onClick={addOtherDisease} variant="outline" className="w-full">
-                <Plus className="h-4 w-4 mr-2" />
-                Adicionar outra doença crônica
-              </Button>
-            )}
+            <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Adicionar outra doença
+            </Button>
           </div>
         </div>
 
