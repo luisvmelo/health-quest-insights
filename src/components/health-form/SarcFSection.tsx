@@ -1,6 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FormSection } from './FormSection';
@@ -87,30 +87,35 @@ export const SarcFSection = ({ form }: SarcFSectionProps) => {
             control={form.control}
             name={question.name}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="space-y-3">
                 <FormLabel className="text-base font-medium">
                   {question.label}: {question.question}
                 </FormLabel>
-                <Select 
-                  onValueChange={(value) => field.onChange(parseInt(value))} 
-                  value={field.value?.toString()}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione a pontuação" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={(value) => field.onChange(parseInt(value))}
+                    value={field.value?.toString()}
+                    className="flex flex-col space-y-3"
+                  >
                     {scoreOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value.toString()}>
-                        <div className="flex flex-col">
-                          <span className="font-medium">{option.value} - {option.description}</span>
-                          <span className="text-xs text-muted-foreground">{option.label}</span>
-                        </div>
-                      </SelectItem>
+                      <div key={option.value} className="flex items-center space-x-2">
+                        <RadioGroupItem 
+                          value={option.value.toString()} 
+                          id={`${question.name}-${option.value}`} 
+                        />
+                        <label 
+                          htmlFor={`${question.name}-${option.value}`} 
+                          className="text-sm font-medium cursor-pointer flex-1"
+                        >
+                          <div className="flex flex-col">
+                            <span className="font-medium">{option.value} - {option.description}</span>
+                            <span className="text-xs text-muted-foreground">{option.label}</span>
+                          </div>
+                        </label>
+                      </div>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
