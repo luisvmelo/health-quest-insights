@@ -1,3 +1,4 @@
+
 export interface HealthFormData {
   // Características Biológicas e Sociodemográficas
   age: number;
@@ -30,6 +31,7 @@ export interface HealthFormData {
   cigarettesPerDay?: number;
   packsPerYear?: number;
   quittingDate?: string;
+  quittingAge?: number;
 
   // Consumo de Álcool
   alcoholConsumption: 'nunca' | 'ocasional' | 'regular' | 'excessivo';

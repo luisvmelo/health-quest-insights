@@ -52,6 +52,7 @@ const healthFormSchema = z.object({
   cigarettesPerDay: z.number().optional(),
   packsPerYear: z.number().optional(),
   quittingDate: z.string().optional(),
+  quittingAge: z.number().optional(),
   alcoholConsumption: z.enum(['nunca', 'ocasional', 'regular', 'excessivo']),
 
   // Condições de Saúde
