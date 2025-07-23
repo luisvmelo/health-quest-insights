@@ -60,10 +60,7 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
       stats.raceDistribution[form.race] = (stats.raceDistribution[form.race] || 0) + 1;
     });
 
-    // Distribuição por sarcopenia
-    data.forEach(form => {
-      stats.sarcopeniaDistribution[form.sarcopeniaStatus] = (stats.sarcopeniaDistribution[form.sarcopeniaStatus] || 0) + 1;
-    });
+    // Distribuição por sarcopenia (removido - agora é calculado automaticamente)
 
     // Distribuição SARC-F
     data.forEach(form => {
@@ -226,11 +223,6 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
           <Users className="h-4 w-4" />
         )}
 
-        {renderDistributionCard(
-          'Status de Sarcopenia',
-          stats.sarcopeniaDistribution,
-          <Activity className="h-4 w-4" />
-        )}
 
         {renderDistributionCard(
           'SARC-F Score',

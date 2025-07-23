@@ -74,8 +74,6 @@ export interface HealthFormData {
   sitToStandTest: number;
   walkingSpeedTest: number;
 
-  // Sarcopenia
-  sarcopeniaStatus: 'pre-sarcopenica' | 'sarcopenica' | 'sarcopenia-grave';
 
   // SARC-F
   sarcF: {

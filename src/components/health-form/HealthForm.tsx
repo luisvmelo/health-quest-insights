@@ -16,7 +16,7 @@ import { HealthConditionsSection } from './HealthConditionsSection';
 import { AnthropometricSection } from './AnthropometricSection';
 import { BodyCompositionSection } from './BodyCompositionSection';
 import { MuscularFunctionSection } from './MuscularFunctionSection';
-import { SarcopeniaSection } from './SarcopeniaSection';
+
 import { SarcFSection } from './SarcFSection';
 import { HealthFormData } from '@/types/health-form';
 
@@ -93,8 +93,6 @@ const healthFormSchema = z.object({
   sitToStandTest: z.number().min(0, 'Valor deve ser maior ou igual a 0').max(30, 'Valor deve ser menor que 30'),
   walkingSpeedTest: z.number().min(0.1, 'Valor deve ser maior que 0.1m/s').max(3, 'Valor deve ser menor que 3m/s'),
 
-  // Sarcopenia
-  sarcopeniaStatus: z.enum(['pre-sarcopenica', 'sarcopenica', 'sarcopenia-grave']).optional(),
 
   // SARC-F
   sarcF: z.object({
@@ -137,7 +135,6 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
     { title: 'Medidas Antropométricas', component: <AnthropometricSection form={form} /> },
     { title: 'Composição Corporal', component: <BodyCompositionSection form={form} /> },
     { title: 'Função Muscular', component: <MuscularFunctionSection form={form} /> },
-    { title: 'Sarcopenia', component: <SarcopeniaSection form={form} /> },
     { title: 'SARC-F', component: <SarcFSection form={form} /> },
   ];
 
