@@ -194,7 +194,7 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
       }) => <FormItem>
               <FormLabel>Tempo sentado durante a semana (horas/dia)</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Ex: 480" {...field} onChange={e => {
+                <Input type="number" placeholder="Ex: 5" {...field} onChange={e => {
             const value = e.target.value;
             field.onChange(value === '' ? undefined : parseInt(value));
           }} value={field.value || ''} />
@@ -207,7 +207,7 @@ export const IPAQSection = ({ form }: IPAQSectionProps) => {
       }) => <FormItem>
               <FormLabel>Tempo sentado durante o final de semana (horas/dia)</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="Ex: 300" {...field} onChange={e => {
+                <Input type="number" placeholder="Ex: 6" {...field} onChange={e => {
             const value = e.target.value;
             field.onChange(value === '' ? undefined : parseInt(value));
           }} value={field.value || ''} />
