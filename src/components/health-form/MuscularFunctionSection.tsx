@@ -16,29 +16,44 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
   const sitToStandTest = form.watch('sitToStandTest');
   const walkingSpeedTest = form.watch('walkingSpeedTest');
 
+  // Obter dados necessários para o cálculo
+  const weight = form.watch('weight');
+  const height = form.watch('height');
+  const age = form.watch('age');
+  const race = form.watch('race');
+
   const sarcopeniaStatus = useMemo(() => {
-    if (!sex || !handGripTest || !sitToStandTest || !walkingSpeedTest) {
+    if (!sex || !weight || !height || !age || !race || !handGripTest || !sitToStandTest || !walkingSpeedTest) {
       return null;
     }
 
-    // Critérios de corte
-    const lowGripStrength = sex === 'masculino' ? handGripTest < 27 : handGripTest < 16;
-    const lowSitToStand = sitToStandTest > 15; // > 15 segundos = baixo desempenho
-    const lowWalkingSpeed = walkingSpeedTest < 0.8; // < 0.8 m/s = baixo desempenho
-
-    // Lógica de classificação
-    if (!lowGripStrength && !lowSitToStand && !lowWalkingSpeed) {
-      return 'sem-sarcopenia';
-    } else if (lowGripStrength && !lowSitToStand && !lowWalkingSpeed) {
-      return 'pre-sarcopenica';
-    } else if (lowGripStrength && (lowSitToStand || lowWalkingSpeed) && !(lowSitToStand && lowWalkingSpeed)) {
-      return 'sarcopenica';
-    } else if (lowGripStrength && lowSitToStand && lowWalkingSpeed) {
-      return 'sarcopenia-grave';
-    }
+    // Converter altura para metros se necessário
+    const heightM = height / 100; // assumindo que altura está em cm
     
-    return null;
-  }, [sex, handGripTest, sitToStandTest, walkingSpeedTest]);
+    // Calcular MMEA e IMMEA
+    const sexoNum = sex === 'masculino' ? 1 : 0;
+    const racaAdj = (race === 'branco') ? 0 : (race === 'negro' ? 1.4 : -1.2);
+    
+    const MMEA = (0.244 * weight) + (7.8 * heightM) + (6.6 * sexoNum) - (0.098 * age) + (racaAdj - 3.3);
+    const IMMEA = MMEA / (heightM * heightM);
+    
+    // Definir flags
+    const massaMuscularBaixa = (sex === 'masculino') ? (IMMEA < 7.0) : (IMMEA < 5.5);
+    const prensaoBaixa = (sex === 'masculino') ? (handGripTest < 27) : (handGripTest < 16);
+    const marchaLenta = walkingSpeedTest <= 0.8;
+    const sentLevantarRuim = sitToStandTest > 15;
+    
+    // Classificar status
+    if (!massaMuscularBaixa) {
+      return 'sem-sarcopenia';
+    } else if (!prensaoBaixa && !sentLevantarRuim && !marchaLenta) {
+      return 'pre-sarcopenica';
+    } else if (marchaLenta) {
+      return 'sarcopenia-grave';
+    } else {
+      return 'sarcopenica';
+    }
+  }, [sex, weight, height, age, race, handGripTest, sitToStandTest, walkingSpeedTest]);
 
   const getStatusDisplay = (status: string | null) => {
     if (!status) return null;
@@ -49,11 +64,11 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
         className: 'text-green-600 bg-green-50 border-green-200'
       },
       'pre-sarcopenica': {
-        label: 'Pré-sarcopênica',
+        label: 'Pré Sarcopênico',
         className: 'text-yellow-600 bg-yellow-50 border-yellow-200'
       },
       'sarcopenica': {
-        label: 'Sarcopênica',
+        label: 'Sarcopênico',
         className: 'text-orange-600 bg-orange-50 border-orange-200'
       },
       'sarcopenia-grave': {
