@@ -1,14 +1,12 @@
-
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import { FormSection } from './FormSection';
 import { HealthFormData } from '@/types/health-form';
-import { useState } from 'react';
-
 
 interface HealthConditionsSectionProps {
   form: UseFormReturn<HealthFormData>;
@@ -31,9 +29,6 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     name: "medications"
   });
 
-  // Separado: array para outras doenças crônicas (strings)
-  const [otherDiseases, setOtherDiseases] = useState<string[]>([]);
-
   const handleDiseaseChange = (disease: string, checked: boolean) => {
     const currentDiseases = form.getValues('chronicDiseases') || [];
     if (checked) {
@@ -48,7 +43,7 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
     if (checked) {
       // Limpar todas as doenças crônicas quando "não possui" é marcado
       form.setValue('chronicDiseases', []);
-      setOtherDiseases([]);
+      form.setValue('otherChronicDiseases', '');
     }
   };
 
@@ -62,37 +57,6 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
 
   const addMedication = () => {
     appendMedication({ name: '', dosage: '', frequency: '' });
-  };
-
-  const addOtherDisease = () => {
-    setOtherDiseases(prev => [...prev, '']);
-  };
-
-  const removeOtherDisease = (index: number) => {
-    const newOtherDiseases = otherDiseases.filter((_, i) => i !== index);
-    setOtherDiseases(newOtherDiseases);
-    
-    // Atualizar o form com as outras doenças válidas (não vazias)
-    const validOtherDiseases = newOtherDiseases.filter(disease => disease.trim() !== '');
-    const currentChronicDiseases = form.getValues('chronicDiseases') || [];
-    const mainDiseases = currentChronicDiseases.filter(disease => 
-      chronicDiseaseOptions.some(option => option.value === disease)
-    );
-    form.setValue('chronicDiseases', [...mainDiseases, ...validOtherDiseases]);
-  };
-
-  const updateOtherDisease = (index: number, value: string) => {
-    const newOtherDiseases = [...otherDiseases];
-    newOtherDiseases[index] = value;
-    setOtherDiseases(newOtherDiseases);
-    
-    // Atualizar o form combinando doenças principais + outras doenças
-    const validOtherDiseases = newOtherDiseases.filter(disease => disease.trim() !== '');
-    const currentChronicDiseases = form.getValues('chronicDiseases') || [];
-    const mainDiseases = currentChronicDiseases.filter(disease => 
-      chronicDiseaseOptions.some(option => option.value === disease)
-    );
-    form.setValue('chronicDiseases', [...mainDiseases, ...validOtherDiseases]);
   };
 
   const noMedications = form.watch('noMedications');
@@ -151,38 +115,24 @@ export const HealthConditionsSection = ({ form }: HealthConditionsSectionProps) 
                 ))}
               </div>
               
-              {/* Campo para "Outras" doenças crônicas */}
-              <div className="space-y-3">
-                <FormLabel className="text-base font-medium">Outras doenças crônicas</FormLabel>
-                
-                <div className="space-y-2">
-                  {otherDiseases.map((disease, index) => (
-                    <div key={index} className="flex gap-2 items-center">
-                      <Input 
-                        placeholder="Digite o nome da doença..." 
-                        value={disease}
-                        onChange={(e) => updateOtherDisease(index, e.target.value)}
-                        className="flex-1"
+              {/* Campo de texto para outras doenças crônicas */}
+              <FormField
+                control={form.control}
+                name="otherChronicDiseases"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Outras doenças crônicas</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Caso possua outras doenças crônicas não listadas acima, descreva-as aqui..."
+                        className="min-h-[100px]"
+                        {...field}
                       />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => removeOtherDisease(index)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex justify-start">
-                  <Button type="button" onClick={addOtherDisease} variant="outline" size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Adicionar outra doença
-                  </Button>
-                </div>
-              </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </>
           )}
         </div>

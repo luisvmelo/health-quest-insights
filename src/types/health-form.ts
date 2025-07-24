@@ -45,6 +45,7 @@ export interface HealthFormData {
 
   // Condições de Saúde
   chronicDiseases: string[]; // Array de strings para doenças crônicas
+  otherChronicDiseases?: string; // Campo de texto para outras doenças
   noChronicDiseases?: boolean;
   medications: Array<{
     name: string;
