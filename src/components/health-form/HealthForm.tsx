@@ -149,6 +149,9 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
     { title: 'SARC-F', component: <SarcFSection form={form} /> },
   ];
 
+  // Log mudanças de seção
+  console.log('🎯 Seção atual renderizada:', currentSection + 1, 'de', sections.length);
+
   const progress = ((currentSection + 1) / sections.length) * 100;
 
   const saveToSupabase = async (data: HealthFormData) => {
@@ -286,8 +289,12 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   };
 
   const nextSection = () => {
+    console.log('🚀 Navegando para próxima seção. Atual:', currentSection, 'Próxima:', currentSection + 1);
     if (currentSection < sections.length - 1) {
-      setCurrentSection(currentSection + 1);
+      const nextSectionIndex = currentSection + 1;
+      console.log('📍 Mudando para seção:', nextSectionIndex);
+      setCurrentSection(nextSectionIndex);
+      console.log('✅ Seção alterada para:', nextSectionIndex);
     }
   };
 
@@ -330,13 +337,15 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       <Form {...form}>
         <form onSubmit={(e) => {
           console.log('📝 Form submit event disparado!', e);
+          console.log('📊 Seção atual no momento do submit:', currentSection, 'Total seções:', sections.length);
           // Só permitir submit na última seção
           if (currentSection !== sections.length - 1) {
             e.preventDefault();
             console.log('🚫 Submit cancelado - não está na última seção');
-            return;
+            return false;
           }
-          form.handleSubmit(onSubmit)(e);
+          console.log('✅ Submit permitido - está na última seção');
+          return form.handleSubmit(onSubmit)(e);
         }} className="space-y-6">
           {sections[currentSection].component}
 
