@@ -28,7 +28,7 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseFloat(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -52,7 +52,7 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseFloat(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -75,7 +75,7 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseInt(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -98,7 +98,7 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseInt(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -121,7 +121,7 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseInt(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />

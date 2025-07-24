@@ -29,7 +29,7 @@ export const BiologicalSection = ({ form }: BiologicalSectionProps) => {
                     const value = e.target.value;
                     field.onChange(value === '' ? undefined : parseInt(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />

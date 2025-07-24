@@ -148,7 +148,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -173,7 +173,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -224,7 +224,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -249,7 +249,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -274,7 +274,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -365,7 +365,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -390,7 +390,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -420,7 +420,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -445,7 +445,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -470,7 +470,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -495,7 +495,7 @@ export const LifestyleSection = ({
                             field.onChange(value === '' ? undefined : Number(value));
                           }
                         }}
-                        value={field.value || ''}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
