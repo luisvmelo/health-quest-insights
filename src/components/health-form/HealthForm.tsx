@@ -120,6 +120,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   const form = useForm<HealthFormData>({
     resolver: zodResolver(healthFormSchema),
     defaultValues: {
+      // Objetos aninhados
       moderateActivity: { performs: false, frequency: 0, duration: 0 },
       vigorousActivity: { performs: false, frequency: 0, duration: 0 },
       lightWalking: { performs: false, frequency: 0, duration: 0 },
