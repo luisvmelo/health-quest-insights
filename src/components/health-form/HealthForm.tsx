@@ -126,7 +126,15 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       lightWalking: { performs: false, frequency: 0, duration: 0 },
       chronicDiseases: [],
       medications: [],
-      sarcF: {},
+      sarcF: {
+        strength: undefined,
+        walkingAssistance: undefined,
+        chairRising: undefined,
+        stairClimbing: undefined,
+        falls: undefined,
+        total: undefined,
+        interpretation: undefined
+      },
     },
   });
 
@@ -235,6 +243,33 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   const onSubmit = async (data: HealthFormData) => {
     console.log('⚠️ FORMULÁRIO SENDO SUBMETIDO! Seção atual:', currentSection + 1, 'de', sections.length);
     console.log('Stack trace:', new Error().stack);
+    
+    // Calcular valores do SARC-F antes de submeter
+    const scores = [
+      data.sarcF?.strength,
+      data.sarcF?.walkingAssistance,
+      data.sarcF?.chairRising,
+      data.sarcF?.stairClimbing,
+      data.sarcF?.falls
+    ];
+    
+    if (scores.every(score => score !== undefined && score !== null)) {
+      const total = scores.reduce((sum, score) => sum + (score || 0), 0);
+      let interpretation = '';
+      
+      if (total >= 0 && total <= 5) {
+        interpretation = 'Sem sinais sugestivos de sarcopenia no momento (cogitar reavaliação periódica)';
+      } else if (total >= 6 && total <= 10) {
+        interpretation = 'Sugestivo de sarcopenia (Prosseguir com investigação e diagnóstico completo)';
+      }
+      
+      // Atualizar dados com os valores calculados
+      data.sarcF = {
+        ...data.sarcF,
+        total,
+        interpretation
+      };
+    }
     // Salvar no Supabase (não bloqueia se falhar)
     await saveToSupabase(data);
     

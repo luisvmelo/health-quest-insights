@@ -52,47 +52,27 @@ export const SarcFSection = ({ form }: SarcFSectionProps) => {
   const stairClimbing = form.watch('sarcF.stairClimbing');
   const falls = form.watch('sarcF.falls');
 
-  // Calcular o total e interpretação apenas para exibição
-  const calculateTotal = () => {
-    const scores = [strength, walkingAssistance, chairRising, stairClimbing, falls];
-    
-    if (scores.every(score => score !== undefined && score !== null)) {
-      return scores.reduce((sum, score) => sum + score, 0);
-    }
-    return null;
-  };
-
-  const getInterpretation = (total: number | null) => {
-    if (total === null) return '';
-    
-    if (total >= 0 && total <= 5) {
-      return 'Sem sinais sugestivos de sarcopenia no momento (cogitar reavaliação periódica)';
-    } else if (total >= 6 && total <= 10) {
-      return 'Sugestivo de sarcopenia (Prosseguir com investigação e diagnóstico completo)';
-    }
-    return '';
-  };
-
-  // Calcular valores apenas para exibição, sem alterar o form automaticamente
-  useEffect(() => {
+  // Calcular valores apenas para exibição (sem alterar o formulário)
+  const calculateDisplayValues = () => {
     const scores = [strength, walkingAssistance, chairRising, stairClimbing, falls];
     
     if (scores.every(score => score !== undefined && score !== null)) {
       const total = scores.reduce((sum, score) => sum + score, 0);
-      const interpretation = getInterpretation(total);
+      let interpretation = '';
       
-      // Só definir os valores se ainda não foram definidos ou são diferentes
-      if (form.getValues('sarcF.total') !== total) {
-        form.setValue('sarcF.total', total, { shouldValidate: false, shouldTouch: false });
+      if (total >= 0 && total <= 5) {
+        interpretation = 'Sem sinais sugestivos de sarcopenia no momento (cogitar reavaliação periódica)';
+      } else if (total >= 6 && total <= 10) {
+        interpretation = 'Sugestivo de sarcopenia (Prosseguir com investigação e diagnóstico completo)';
       }
-      if (form.getValues('sarcF.interpretation') !== interpretation) {
-        form.setValue('sarcF.interpretation', interpretation, { shouldValidate: false, shouldTouch: false });
-      }
+      
+      return { total, interpretation };
     }
-  }, [strength, walkingAssistance, chairRising, stairClimbing, falls, form]);
+    
+    return { total: null, interpretation: '' };
+  };
 
-  const total = form.watch('sarcF.total');
-  const interpretation = form.watch('sarcF.interpretation');
+  const displayValues = calculateDisplayValues();
 
   return (
     <FormSection title="Questionário SARC-F">
@@ -143,19 +123,19 @@ export const SarcFSection = ({ form }: SarcFSectionProps) => {
         ))}
 
         {/* Resultado */}
-        {total !== undefined && total !== null && (
+        {displayValues.total !== null && (
           <Card className="mt-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 Resultado SARC-F
-                <Badge variant={total <= 5 ? "secondary" : "warning"} className="ml-2">
-                  Pontuação: {total}/10
+                <Badge variant={displayValues.total <= 5 ? "secondary" : "warning"} className="ml-2">
+                  Pontuação: {displayValues.total}/10
                 </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className={`font-medium ${total <= 5 ? 'text-accent' : 'text-warning'}`}>
-                {interpretation}
+              <p className={`font-medium ${displayValues.total <= 5 ? 'text-accent' : 'text-warning'}`}>
+                {displayValues.interpretation}
               </p>
             </CardContent>
           </Card>
