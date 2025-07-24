@@ -336,16 +336,11 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       {/* Form */}
       <Form {...form}>
         <form onSubmit={(e) => {
-          console.log('📝 Form submit event disparado!', e);
-          console.log('📊 Seção atual no momento do submit:', currentSection, 'Total seções:', sections.length);
-          // Só permitir submit na última seção
-          if (currentSection !== sections.length - 1) {
-            e.preventDefault();
-            console.log('🚫 Submit cancelado - não está na última seção');
-            return false;
-          }
-          console.log('✅ Submit permitido - está na última seção');
-          return form.handleSubmit(onSubmit)(e);
+          // BLOQUEAR COMPLETAMENTE qualquer submit automático
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🚫 Submit automático bloqueado');
+          return false;
         }} className="space-y-6">
           {sections[currentSection].component}
 
@@ -364,7 +359,16 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
 
                 <div className="flex gap-2">
                   {currentSection === sections.length - 1 ? (
-                    <Button type="submit" className="flex items-center gap-2">
+                    <Button 
+                      type="button" 
+                      onClick={async () => {
+                        console.log('🎯 Clique manual no botão salvar');
+                        const formData = form.getValues();
+                        console.log('📊 Dados do formulário:', formData);
+                        await form.handleSubmit(onSubmit)();
+                      }}
+                      className="flex items-center gap-2"
+                    >
                       <Save className="w-4 h-4" />
                       Salvar Formulário
                     </Button>
