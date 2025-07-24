@@ -95,12 +95,14 @@ export const MuscularFunctionSection = ({
     // Classificar status
     if (!massaMuscularBaixa) {
       return 'sem-sarcopenia';
-    } else if (!prensaoBaixa && !sentLevantarRuim && !marchaLenta) {
+    } else if (!prensaoBaixa && !sentLevantarRuim) {
       return 'pre-sarcopenica';
-    } else if (marchaLenta) {
+    } else if ((prensaoBaixa || sentLevantarRuim) && marchaLenta) {
       return 'sarcopenia-grave';
-    } else {
+    } else if (prensaoBaixa || sentLevantarRuim) {
       return 'sarcopenica';
+    } else {
+      return 'pre-sarcopenica';
     }
   }, [sex, weight, height, age, race, handGripTest, sitToStandTest, walkingSpeedTest]);
   const getStatusDisplay = (status: string | null) => {
