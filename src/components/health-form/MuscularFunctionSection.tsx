@@ -22,6 +22,42 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
   const age = form.watch('age');
   const race = form.watch('race');
 
+  // Classificar desempenho da preensão palmar
+  const getHandGripStatus = (grip: number | undefined, sex: string | undefined) => {
+    if (!grip || !sex) return null;
+    
+    const threshold = sex === 'masculino' ? 27 : 16;
+    
+    if (grip < threshold) {
+      return {
+        label: 'Baixa força',
+        className: 'text-red-600 bg-red-50 border-red-200'
+      };
+    } else {
+      return {
+        label: 'Força adequada',
+        className: 'text-green-600 bg-green-50 border-green-200'
+      };
+    }
+  };
+
+  // Classificar desempenho do sentar e levantar
+  const getSitToStandStatus = (time: number | undefined) => {
+    if (!time) return null;
+    
+    if (time > 15) {
+      return {
+        label: 'Baixo desempenho',
+        className: 'text-red-600 bg-red-50 border-red-200'
+      };
+    } else {
+      return {
+        label: 'Desempenho adequado',
+        className: 'text-green-600 bg-green-50 border-green-200'
+      };
+    }
+  };
+
   // Classificar desempenho da marcha
   const getMarchStatus = (time: number | undefined) => {
     if (!time) return null;
@@ -39,6 +75,8 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
     }
   };
 
+  const handGripStatus = getHandGripStatus(handGripTest, sex);
+  const sitToStandStatus = getSitToStandStatus(sitToStandTest);
   const marchStatus = getMarchStatus(walkingSpeedTest);
 
   const sarcopeniaStatus = useMemo(() => {
@@ -124,6 +162,11 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
+              {handGripStatus && (
+                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${handGripStatus.className}`}>
+                  {handGripStatus.label}
+                </div>
+              )}
             </FormItem>
           )}
         />
@@ -148,6 +191,11 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
+              {sitToStandStatus && (
+                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${sitToStandStatus.className}`}>
+                  {sitToStandStatus.label}
+                </div>
+              )}
             </FormItem>
           )}
         />
