@@ -144,11 +144,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -169,11 +172,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -220,11 +226,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -245,11 +254,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -270,11 +282,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -361,11 +376,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || (/^\d+$/.test(value) && Number(value) <= 7)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value) && Number(value) <= 7) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -386,11 +404,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -416,11 +437,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -441,11 +465,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -466,11 +493,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || (/^\d+$/.test(value) && Number(value) <= 7)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value) && Number(value) <= 7) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -491,11 +521,14 @@ export const LifestyleSection = ({
                         {...field}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || /^\d+$/.test(value)) {
-                            field.onChange(value === '' ? undefined : Number(value));
+                          if (value === '') {
+                            field.onChange('');
+                          } else if (/^\d+$/.test(value)) {
+                            const numValue = Number(value);
+                            field.onChange(isNaN(numValue) ? '' : numValue);
                           }
                         }}
-                        value={field.value ?? ''}
+                        value={field.value === undefined ? '' : String(field.value)}
                       />
                     </FormControl>
                     <FormMessage />

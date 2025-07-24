@@ -137,8 +137,13 @@ export const MuscularFunctionSection = ({
               <FormControl>
                 <Input type="number" step="0.1" placeholder="Ex: 35.5" {...field} onChange={e => {
             const value = e.target.value;
-            field.onChange(value === '' ? undefined : Number(value));
-          }} value={field.value ?? ''} />
+            if (value === '') {
+              field.onChange('');
+            } else {
+              const numValue = Number(value);
+              field.onChange(isNaN(numValue) ? '' : numValue);
+            }
+          }} value={field.value === undefined ? '' : String(field.value)} />
               </FormControl>
               <FormMessage />
               <div className="mt-2 h-8 flex items-center">
@@ -155,8 +160,13 @@ export const MuscularFunctionSection = ({
               <FormControl>
                 <Input type="number" step="0.1" placeholder="Ex: 12.5" {...field} onChange={e => {
             const value = e.target.value;
-            field.onChange(value === '' ? undefined : Number(value));
-          }} value={field.value ?? ''} />
+            if (value === '') {
+              field.onChange('');
+            } else {
+              const numValue = Number(value);
+              field.onChange(isNaN(numValue) ? '' : numValue);
+            }
+          }} value={field.value === undefined ? '' : String(field.value)} />
               </FormControl>
               <FormMessage />
               <div className="mt-2 h-8 flex items-center">
@@ -173,8 +183,13 @@ export const MuscularFunctionSection = ({
               <FormControl>
                 <Input type="number" step="0.1" placeholder="Ex: 6.8" {...field} onChange={e => {
             const value = e.target.value;
-            field.onChange(value === '' ? undefined : Number(value));
-          }} value={field.value ?? ''} />
+            if (value === '') {
+              field.onChange('');
+            } else {
+              const numValue = Number(value);
+              field.onChange(isNaN(numValue) ? '' : numValue);
+            }
+          }} value={field.value === undefined ? '' : String(field.value)} />
               </FormControl>
               <FormMessage />
               <div className="mt-2 h-8 flex items-center">

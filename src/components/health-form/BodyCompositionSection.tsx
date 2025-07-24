@@ -26,9 +26,14 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseFloat(value));
+                    if (value === '') {
+                      field.onChange('');
+                    } else {
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? '' : numValue);
+                    }
                   }}
-                  value={field.value ?? ''}
+                  value={field.value === undefined ? '' : String(field.value)}
                 />
               </FormControl>
               <FormMessage />
@@ -50,9 +55,14 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseFloat(value));
+                    if (value === '') {
+                      field.onChange('');
+                    } else {
+                      const numValue = parseFloat(value);
+                      field.onChange(isNaN(numValue) ? '' : numValue);
+                    }
                   }}
-                  value={field.value ?? ''}
+                  value={field.value === undefined ? '' : String(field.value)}
                 />
               </FormControl>
               <FormMessage />
@@ -73,9 +83,14 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseInt(value));
+                    if (value === '') {
+                      field.onChange('');
+                    } else {
+                      const numValue = parseInt(value);
+                      field.onChange(isNaN(numValue) ? '' : numValue);
+                    }
                   }}
-                  value={field.value ?? ''}
+                  value={field.value === undefined ? '' : String(field.value)}
                 />
               </FormControl>
               <FormMessage />
@@ -96,9 +111,14 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseInt(value));
+                    if (value === '') {
+                      field.onChange('');
+                    } else {
+                      const numValue = parseInt(value);
+                      field.onChange(isNaN(numValue) ? '' : numValue);
+                    }
                   }}
-                  value={field.value ?? ''}
+                  value={field.value === undefined ? '' : String(field.value)}
                 />
               </FormControl>
               <FormMessage />
@@ -119,9 +139,14 @@ export const BodyCompositionSection = ({ form }: BodyCompositionSectionProps) =>
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseInt(value));
+                    if (value === '') {
+                      field.onChange('');
+                    } else {
+                      const numValue = parseInt(value);
+                      field.onChange(isNaN(numValue) ? '' : numValue);
+                    }
                   }}
-                  value={field.value ?? ''}
+                  value={field.value === undefined ? '' : String(field.value)}
                 />
               </FormControl>
               <FormMessage />
