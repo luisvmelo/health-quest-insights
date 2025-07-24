@@ -22,6 +22,25 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
   const age = form.watch('age');
   const race = form.watch('race');
 
+  // Classificar desempenho da marcha
+  const getMarchStatus = (time: number | undefined) => {
+    if (!time) return null;
+    
+    if (time >= 7.5) {
+      return {
+        label: 'Marcha lenta',
+        className: 'text-red-600 bg-red-50 border-red-200'
+      };
+    } else {
+      return {
+        label: 'Marcha adequada', 
+        className: 'text-green-600 bg-green-50 border-green-200'
+      };
+    }
+  };
+
+  const marchStatus = getMarchStatus(walkingSpeedTest);
+
   const sarcopeniaStatus = useMemo(() => {
     if (!sex || !weight || !height || !age || !race || !handGripTest || !sitToStandTest || !walkingSpeedTest) {
       return null;
@@ -40,7 +59,7 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
     // Definir flags
     const massaMuscularBaixa = (sex === 'masculino') ? (IMMEA < 7.0) : (IMMEA < 5.5);
     const prensaoBaixa = (sex === 'masculino') ? (handGripTest < 27) : (handGripTest < 16);
-    const marchaLenta = walkingSpeedTest <= 0.8;
+    const marchaLenta = walkingSpeedTest >= 7.5;
     const sentLevantarRuim = sitToStandTest > 15;
     
     // Classificar status
@@ -138,12 +157,12 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
           name="walkingSpeedTest"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Teste de Velocidade de Marcha (m/s)</FormLabel>
+              <FormLabel>Tempo do teste de marcha (6 metros, em segundos)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
                   step="0.1"
-                  placeholder="Ex: 1.2"
+                  placeholder="Ex: 6.8"
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -153,6 +172,11 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
+              {marchStatus && (
+                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${marchStatus.className}`}>
+                  {marchStatus.label}
+                </div>
+              )}
             </FormItem>
           )}
         />
