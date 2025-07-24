@@ -162,11 +162,13 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
-              {handGripStatus && (
-                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${handGripStatus.className}`}>
-                  {handGripStatus.label}
-                </div>
-              )}
+              <div className="mt-2 h-8 flex items-center">
+                {handGripStatus && (
+                  <div className={`px-3 py-1 rounded border text-sm font-medium ${handGripStatus.className}`}>
+                    {handGripStatus.label}
+                  </div>
+                )}
+              </div>
             </FormItem>
           )}
         />
@@ -191,11 +193,13 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
-              {sitToStandStatus && (
-                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${sitToStandStatus.className}`}>
-                  {sitToStandStatus.label}
-                </div>
-              )}
+              <div className="mt-2 h-8 flex items-center">
+                {sitToStandStatus && (
+                  <div className={`px-3 py-1 rounded border text-sm font-medium ${sitToStandStatus.className}`}>
+                    {sitToStandStatus.label}
+                  </div>
+                )}
+              </div>
             </FormItem>
           )}
         />
@@ -220,11 +224,13 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                 />
               </FormControl>
               <FormMessage />
-              {marchStatus && (
-                <div className={`mt-2 px-3 py-1 rounded border text-sm font-medium ${marchStatus.className}`}>
-                  {marchStatus.label}
-                </div>
-              )}
+              <div className="mt-2 h-8 flex items-center">
+                {marchStatus && (
+                  <div className={`px-3 py-1 rounded border text-sm font-medium ${marchStatus.className}`}>
+                    {marchStatus.label}
+                  </div>
+                )}
+              </div>
             </FormItem>
           )}
         />
