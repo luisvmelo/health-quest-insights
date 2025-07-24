@@ -57,6 +57,7 @@ export interface HealthFormData {
   weight: number;
   height: number;
   bmi?: number;
+  bmiStatus?: string;
   waistCircumference: number;
   hipCircumference: number;
   waistHipRatio?: number;

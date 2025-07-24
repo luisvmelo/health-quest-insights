@@ -14,13 +14,55 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
   const height = form.watch('height');
   const waistCircumference = form.watch('waistCircumference');
   const hipCircumference = form.watch('hipCircumference');
+  const bmiStatus = form.watch('bmiStatus');
 
-  // Calcular IMC automaticamente
+  const getBmiStatusColor = (status: string | undefined) => {
+    if (!status) return '';
+    
+    switch (status) {
+      case 'Abaixo do peso':
+        return 'text-blue-600 bg-blue-50 border-blue-200';
+      case 'Peso normal':
+        return 'text-green-600 bg-green-50 border-green-200';
+      case 'Sobrepeso':
+        return 'text-orange-600 bg-orange-50 border-orange-200';
+      case 'Obesidade grau 1':
+        return 'text-red-500 bg-red-50 border-red-200';
+      case 'Obesidade grau 2':
+        return 'text-red-600 bg-red-50 border-red-200';
+      case 'Obesidade grau 3':
+        return 'text-red-700 bg-red-100 border-red-300';
+      default:
+        return '';
+    }
+  };
+
+  // Calcular IMC e status automaticamente
   useEffect(() => {
     if (weight && height) {
       const heightInMeters = height / 100;
       const bmi = weight / (heightInMeters * heightInMeters);
-      form.setValue('bmi', Math.round(bmi * 100) / 100);
+      const roundedBmi = Math.round(bmi * 100) / 100;
+      
+      form.setValue('bmi', roundedBmi);
+      
+      // Calcular status do IMC
+      let status = '';
+      if (roundedBmi < 18.5) {
+        status = 'Abaixo do peso';
+      } else if (roundedBmi <= 24.9) {
+        status = 'Peso normal';
+      } else if (roundedBmi <= 29.9) {
+        status = 'Sobrepeso';
+      } else if (roundedBmi <= 34.9) {
+        status = 'Obesidade grau 1';
+      } else if (roundedBmi <= 39.9) {
+        status = 'Obesidade grau 2';
+      } else {
+        status = 'Obesidade grau 3';
+      }
+      
+      form.setValue('bmiStatus', status);
     }
   }, [weight, height, form]);
 
@@ -96,6 +138,26 @@ export const AnthropometricSection = ({ form }: AnthropometricSectionProps) => {
                   {...field}
                   readOnly
                   className="bg-muted"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="bmiStatus"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status IMC</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Calculado automaticamente"
+                  {...field}
+                  readOnly
+                  className={`bg-muted font-medium ${getBmiStatusColor(bmiStatus)}`}
                 />
               </FormControl>
               <FormMessage />

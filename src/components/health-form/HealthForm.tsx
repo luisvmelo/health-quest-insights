@@ -77,6 +77,7 @@ const healthFormSchema = z.object({
   weight: z.number().min(20, 'Peso deve ser maior que 20kg').max(300, 'Peso deve ser menor que 300kg'),
   height: z.number().min(100, 'Altura deve ser maior que 100cm').max(250, 'Altura deve ser menor que 250cm'),
   bmi: z.number().optional(),
+  bmiStatus: z.string().optional(),
   waistCircumference: z.number().min(40, 'Medida deve ser maior que 40cm').max(200, 'Medida deve ser menor que 200cm'),
   hipCircumference: z.number().min(50, 'Medida deve ser maior que 50cm').max(200, 'Medida deve ser menor que 200cm'),
   waistHipRatio: z.number().optional(),
@@ -168,6 +169,8 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
         chronicDiseases: data.chronicDiseases,
         weight: data.weight,
         height: data.height / 100, // Converter cm para m
+        bmi: data.bmi,
+        bmiStatus: data.bmiStatus,
         waistCircumference: data.waistCircumference,
         hipCircumference: data.hipCircumference,
         calfCircumference: data.calfCircumference,
