@@ -52,22 +52,42 @@ export const SarcFSection = ({ form }: SarcFSectionProps) => {
   const stairClimbing = form.watch('sarcF.stairClimbing');
   const falls = form.watch('sarcF.falls');
 
-  // Calcular o total e interpretação automaticamente
+  // Calcular o total e interpretação apenas para exibição
+  const calculateTotal = () => {
+    const scores = [strength, walkingAssistance, chairRising, stairClimbing, falls];
+    
+    if (scores.every(score => score !== undefined && score !== null)) {
+      return scores.reduce((sum, score) => sum + score, 0);
+    }
+    return null;
+  };
+
+  const getInterpretation = (total: number | null) => {
+    if (total === null) return '';
+    
+    if (total >= 0 && total <= 5) {
+      return 'Sem sinais sugestivos de sarcopenia no momento (cogitar reavaliação periódica)';
+    } else if (total >= 6 && total <= 10) {
+      return 'Sugestivo de sarcopenia (Prosseguir com investigação e diagnóstico completo)';
+    }
+    return '';
+  };
+
+  // Calcular valores apenas para exibição, sem alterar o form automaticamente
   useEffect(() => {
     const scores = [strength, walkingAssistance, chairRising, stairClimbing, falls];
     
     if (scores.every(score => score !== undefined && score !== null)) {
       const total = scores.reduce((sum, score) => sum + score, 0);
+      const interpretation = getInterpretation(total);
       
-      let interpretation = '';
-      if (total >= 0 && total <= 5) {
-        interpretation = 'Sem sinais sugestivos de sarcopenia no momento (cogitar reavaliação periódica)';
-      } else if (total >= 6 && total <= 10) {
-        interpretation = 'Sugestivo de sarcopenia (Prosseguir com investigação e diagnóstico completo)';
+      // Só definir os valores se ainda não foram definidos ou são diferentes
+      if (form.getValues('sarcF.total') !== total) {
+        form.setValue('sarcF.total', total, { shouldValidate: false, shouldTouch: false });
       }
-
-      form.setValue('sarcF.total', total);
-      form.setValue('sarcF.interpretation', interpretation);
+      if (form.getValues('sarcF.interpretation') !== interpretation) {
+        form.setValue('sarcF.interpretation', interpretation, { shouldValidate: false, shouldTouch: false });
+      }
     }
   }, [strength, walkingAssistance, chairRising, stairClimbing, falls, form]);
 
