@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Save, FileText, BarChart3 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 import { BiologicalSection } from './BiologicalSection';
 import { IPAQSection } from './IPAQSection';
@@ -140,7 +141,98 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
 
   const progress = ((currentSection + 1) / sections.length) * 100;
 
-  const onSubmit = (data: HealthFormData) => {
+  const saveToSupabase = async (data: HealthFormData) => {
+    try {
+      // Mapear dados para o formato da tabela
+      const assessmentData = {
+        age: data.age,
+        sex: data.sex,
+        race: data.race,
+        physicalActivity: data.physicalActivity || false,
+        sittingTimeWeekdays: data.sittingTimeWeekdays,
+        sittingTimeWeekends: data.sittingTimeWeekends,
+        moderateActivityPerforms: data.moderateActivity.performs,
+        moderateActivityFrequency: data.moderateActivity.frequency,
+        moderateActivityDuration: data.moderateActivity.duration,
+        vigorousActivityPerforms: data.vigorousActivity.performs,
+        vigorousActivityFrequency: data.vigorousActivity.frequency,
+        vigorousActivityDuration: data.vigorousActivity.duration,
+        lightWalkingPerforms: data.lightWalking.performs,
+        lightWalkingFrequency: data.lightWalking.frequency,
+        lightWalkingDuration: data.lightWalking.duration,
+        smokingStatus: data.smokingStatus || 'nunca',
+        cigarettesPerDay: data.cigarettesPerDay,
+        startSmokingAge: data.startSmokingAge,
+        quittingAge: data.quittingAge,
+        alcoholConsumption: data.alcoholConsumption || 'nunca',
+        chronicDiseases: data.chronicDiseases,
+        weight: data.weight,
+        height: data.height / 100, // Converter cm para m
+        waistCircumference: data.waistCircumference,
+        hipCircumference: data.hipCircumference,
+        calfCircumference: data.calfCircumference,
+        skeletalMuscle: data.skeletalMuscle,
+        fatMass: data.fatMass,
+        visceralFat: data.visceralFat,
+        bodyAge: data.bodyAge,
+        dailyKcal: data.dailyKcal,
+        handGripTest: data.handGripTest,
+        sitToStandTest: data.sitToStandTest,
+        walkingSpeedTest: data.walkingSpeedTest
+      };
+
+      // Mapear medicamentos
+      const medicationsData = data.medications.map(med => ({
+        name: med.name,
+        dosage: med.dosage,
+        frequency: med.frequency
+      }));
+
+      // Primeiro inserir avaliação principal
+      const { data: result, error } = await (supabase as any)
+        .from('sarcopeniaAssessments')
+        .insert([assessmentData])
+        .select('id')
+        .single();
+
+      if (error) {
+        console.error('Erro ao salvar avaliação no Supabase:', error);
+        toast({
+          title: "Erro ao salvar no banco de dados",
+          description: "Os dados foram salvos localmente, mas houve um problema com o servidor.",
+          variant: "destructive",
+        });
+      } else {
+        console.log('Avaliação salva no Supabase com sucesso:', result);
+        
+        // Se há medicamentos, salvá-los também
+        if (medicationsData.length > 0 && result?.id) {
+          const medicationsWithAssessmentId = medicationsData.map(med => ({
+            ...med,
+            assessmentId: result.id
+          }));
+          
+          const { error: medError } = await (supabase as any)
+            .from('medications')
+            .insert(medicationsWithAssessmentId);
+          
+          if (medError) {
+            console.error('Erro ao salvar medicamentos:', medError);
+          } else {
+            console.log('Medicamentos salvos com sucesso');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erro inesperado ao salvar no Supabase:', error);
+    }
+  };
+
+  const onSubmit = async (data: HealthFormData) => {
+    // Salvar no Supabase (não bloqueia se falhar)
+    await saveToSupabase(data);
+    
+    // Manter comportamento original
     onFormSubmit(data);
     toast({
       title: "Formulário salvo com sucesso!",

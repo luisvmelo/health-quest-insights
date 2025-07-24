@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Users, Activity, Heart, TrendingUp } from 'lucide-react';
 import { HealthFormData, StatisticsData } from '@/types/health-form';
+import { supabase } from '@/integrations/supabase/client';
+import { useEffect, useState } from 'react';
 
 interface StatisticsViewProps {
   data: HealthFormData[];
@@ -11,8 +13,40 @@ interface StatisticsViewProps {
 }
 
 export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
+  const [supabaseData, setSupabaseData] = useState<HealthFormData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSupabaseData = async () => {
+      try {
+        const { data: assessments, error } = await (supabase as any)
+          .from('sarcopeniaAssessments')
+          .select('*');
+
+        if (error) {
+          console.error('Erro ao buscar dados do Supabase:', error);
+          setSupabaseData([]);
+        } else {
+          // Para agora, apenas log dos dados - implementação completa virá depois
+          console.log('Dados do Supabase:', assessments);
+          setSupabaseData([]);
+        }
+      } catch (error) {
+        console.error('Erro inesperado ao buscar dados:', error);
+        setSupabaseData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSupabaseData();
+  }, []);
+
+  // Combinar dados locais e do Supabase
+  const allData = [...data, ...supabaseData];
+
   const calculateStatistics = (): StatisticsData => {
-    if (data.length === 0) {
+    if (allData.length === 0) {
       return {
         totalForms: 0,
         ageDistribution: {},
@@ -28,7 +62,7 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
     }
 
     const stats: StatisticsData = {
-      totalForms: data.length,
+      totalForms: allData.length,
       ageDistribution: {},
       sexDistribution: {},
       raceDistribution: {},
@@ -41,7 +75,7 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
     };
 
     // Distribuição por idade (faixas etárias)
-    data.forEach(form => {
+    allData.forEach(form => {
       const ageGroup = form.age < 30 ? '18-29' : 
                       form.age < 40 ? '30-39' :
                       form.age < 50 ? '40-49' :
@@ -51,33 +85,33 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
     });
 
     // Distribuição por sexo
-    data.forEach(form => {
+    allData.forEach(form => {
       stats.sexDistribution[form.sex] = (stats.sexDistribution[form.sex] || 0) + 1;
     });
 
     // Distribuição por raça
-    data.forEach(form => {
+    allData.forEach(form => {
       stats.raceDistribution[form.race] = (stats.raceDistribution[form.race] || 0) + 1;
     });
 
     // Distribuição por sarcopenia (removido - agora é calculado automaticamente)
 
     // Distribuição SARC-F
-    data.forEach(form => {
+    allData.forEach(form => {
       const total = form.sarcF.total || 0;
       const category = total <= 5 ? 'Sem sinais (0-5)' : 'Sugestivo (6-10)';
       stats.sarcFDistribution[category] = (stats.sarcFDistribution[category] || 0) + 1;
     });
 
     // Distribuição por tabagismo
-    data.forEach(form => {
+    allData.forEach(form => {
       stats.smokingDistribution[form.smokingStatus] = (stats.smokingDistribution[form.smokingStatus] || 0) + 1;
     });
 
     // Médias
-    stats.averageBMI = data.reduce((sum, form) => sum + (form.bmi || 0), 0) / data.length;
-    stats.averageWaistHipRatio = data.reduce((sum, form) => sum + (form.waistHipRatio || 0), 0) / data.length;
-    stats.physicalActivityPercentage = (data.filter(form => form.physicalActivity).length / data.length) * 100;
+    stats.averageBMI = allData.reduce((sum, form) => sum + (form.bmi || 0), 0) / allData.length;
+    stats.averageWaistHipRatio = allData.reduce((sum, form) => sum + (form.waistHipRatio || 0), 0) / allData.length;
+    stats.physicalActivityPercentage = (allData.filter(form => form.physicalActivity).length / allData.length) * 100;
 
     return stats;
   };
@@ -113,7 +147,21 @@ export const StatisticsView = ({ data, onBack }: StatisticsViewProps) => {
     </Card>
   );
 
-  if (data.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="flex items-center gap-4 mb-6">
+          <Button variant="outline" onClick={onBack}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Voltar
+          </Button>
+          <h1 className="text-2xl font-bold text-primary">Carregando...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (allData.length === 0) {
     return (
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center gap-4 mb-6">
