@@ -180,7 +180,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
         alcoholConsumption: data.alcoholConsumption || 'nunca',
         chronicDiseases: data.chronicDiseases,
         weight: data.weight,
-        height: data.height, // Manter em metros como inserido
+        height: data.height / 100, // Converter cm para m (154cm = 1.54m)
         waistCircumference: data.waistCircumference,
         hipCircumference: data.hipCircumference,
         calfCircumference: data.calfCircumference,
