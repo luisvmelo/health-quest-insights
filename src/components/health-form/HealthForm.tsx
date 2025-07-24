@@ -180,9 +180,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
         alcoholConsumption: data.alcoholConsumption || 'nunca',
         chronicDiseases: data.chronicDiseases,
         weight: data.weight,
-        height: data.height / 100, // Converter cm para m
-        bmi: data.bmi,
-        bmiStatus: data.bmiStatus,
+        height: data.height, // Manter em metros como inserido
         waistCircumference: data.waistCircumference,
         hipCircumference: data.hipCircumference,
         calfCircumference: data.calfCircumference,
@@ -193,7 +191,13 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
         dailyKcal: data.dailyKcal,
         handGripTest: data.handGripTest,
         sitToStandTest: data.sitToStandTest,
-        walkingSpeedTest: data.walkingSpeedTest
+        walkingSpeedTest: data.walkingSpeedTest,
+        // Mapear campos do SARC-F corretamente
+        sarcFForca: data.sarcF?.strength,
+        sarcFAjudaCaminhar: data.sarcF?.walkingAssistance,
+        sarcFLevantarCadeira: data.sarcF?.chairRising,
+        sarcFSubirEscada: data.sarcF?.stairClimbing,
+        sarcFQuedas: data.sarcF?.falls
       };
 
       // Mapear medicamentos
