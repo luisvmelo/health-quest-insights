@@ -99,9 +99,9 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseFloat(value));
+                    field.onChange(value === '' ? undefined : Number(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -123,9 +123,9 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseFloat(value));
+                    field.onChange(value === '' ? undefined : Number(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -147,9 +147,9 @@ export const MuscularFunctionSection = ({ form }: MuscularFunctionSectionProps) 
                   {...field}
                   onChange={(e) => {
                     const value = e.target.value;
-                    field.onChange(value === '' ? undefined : parseFloat(value));
+                    field.onChange(value === '' ? undefined : Number(value));
                   }}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />

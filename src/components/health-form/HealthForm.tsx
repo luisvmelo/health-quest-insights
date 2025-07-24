@@ -90,9 +90,9 @@ const healthFormSchema = z.object({
   dailyKcal: z.number().min(800, 'Valor deve ser maior que 800').max(5000, 'Valor deve ser menor que 5000'),
 
   // Função Muscular
-  handGripTest: z.number().min(5, 'Valor deve ser maior que 5kg').max(80, 'Valor deve ser menor que 80kg'),
-  sitToStandTest: z.number().min(0, 'Valor deve ser maior ou igual a 0').max(30, 'Valor deve ser menor que 30'),
-  walkingSpeedTest: z.number().min(0.1, 'Valor deve ser maior que 0.1m/s').max(3, 'Valor deve ser menor que 3m/s'),
+  handGripTest: z.number(),
+  sitToStandTest: z.number(),
+  walkingSpeedTest: z.number(),
 
 
   // SARC-F
