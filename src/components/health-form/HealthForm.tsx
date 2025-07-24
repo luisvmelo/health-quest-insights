@@ -233,6 +233,8 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
   };
 
   const onSubmit = async (data: HealthFormData) => {
+    console.log('⚠️ FORMULÁRIO SENDO SUBMETIDO! Seção atual:', currentSection + 1, 'de', sections.length);
+    console.log('Stack trace:', new Error().stack);
     // Salvar no Supabase (não bloqueia se falhar)
     await saveToSupabase(data);
     
@@ -291,7 +293,16 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
 
       {/* Form */}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={(e) => {
+          console.log('📝 Form submit event disparado!', e);
+          // Só permitir submit na última seção
+          if (currentSection !== sections.length - 1) {
+            e.preventDefault();
+            console.log('🚫 Submit cancelado - não está na última seção');
+            return;
+          }
+          form.handleSubmit(onSubmit)(e);
+        }} className="space-y-6">
           {sections[currentSection].component}
 
           {/* Navigation */}
