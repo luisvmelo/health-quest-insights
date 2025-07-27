@@ -66,6 +66,7 @@ const healthFormSchema = z.object({
 
   // Condições de Saúde
   chronicDiseases: z.array(z.string()),
+  otherChronicDiseases: z.string().optional(),
   medications: z.array(z.object({
     name: z.string(),
     dosage: z.string(),
@@ -159,7 +160,8 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
       console.log('🔍 Dados originais do formulário:', {
         lightWalkingDuration: data.lightWalking.duration,
         moderateActivityDuration: data.moderateActivity.duration,
-        calfCircumference: data.calfCircumference
+        calfCircumference: data.calfCircumference,
+        otherChronicDiseases: data.otherChronicDiseases
       });
 
       // Mapear dados para o formato da tabela
