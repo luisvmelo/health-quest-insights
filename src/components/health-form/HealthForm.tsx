@@ -157,6 +157,7 @@ export const HealthForm = ({ onFormSubmit, onShowStatistics, totalForms }: Healt
 
   const saveToSupabase = async (data: HealthFormData) => {
     try {
+      console.log('🚀 Iniciando salvamento no Supabase...');
       console.log('🔍 Dados originais do formulário:', {
         lightWalkingDuration: data.lightWalking.duration,
         moderateActivityDuration: data.moderateActivity.duration,
